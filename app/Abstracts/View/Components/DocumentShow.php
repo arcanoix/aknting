@@ -105,6 +105,9 @@ abstract class DocumentShow extends Base
     public $permissionDelete;
 
     /** @var string */
+    public $permissionTransactionDelete;
+
+    /** @var string */
     public $permissionButtonCustomize;
 
     /** @var bool */
@@ -366,7 +369,7 @@ abstract class DocumentShow extends Base
         string $routeButtonAddNew = '', string $routeButtonEdit = '', string $routeButtonDuplicate = '', string $routeButtonPrint = '', string $routeButtonPdf = '', string $routeButtonCancelled = '', string $routeButtonDelete = '', string $routeButtonCustomize = '', string $routeButtonSent = '',
         string $routeButtonReceived = '', string $routeButtonEmail = '', string $routeButtonPaid = '',
         bool $checkButtonReconciled = true, bool $checkButtonCancelled = true,
-        string $permissionCreate = '', string $permissionUpdate = '', string $permissionDelete = '', string $permissionButtonCustomize = '',
+        string $permissionCreate = '', string $permissionUpdate = '', string $permissionDelete = '', string $permissionTransactionDelete = '', string $permissionButtonCustomize = '',
         bool $hideButtonGroupDivider1 = false, bool $hideButtonGroupDivider2 = false, bool $hideButtonGroupDivider3 = false,
         bool $hideButtonMoreActions = false, bool $hideButtonAddNew = false, bool $hideButtonEdit = false, bool $hideButtonDuplicate = false, bool $hideButtonPrint = false, bool $hideButtonPdf = false, bool $hideButtonCancel = false, bool $hideButtonCustomize = false, bool $hideButtonDelete = false,
         bool $hideHeader = false,bool $hideRecurringMessage = false, bool $hideStatusMessage = false, bool $hideTimeline = false, bool $hideFooter = false, bool $hideFooterHistories = false, bool $hideFooterTransactions = false,
@@ -418,6 +421,7 @@ abstract class DocumentShow extends Base
         $this->permissionCreate = $this->getPermissionCreate($type, $permissionCreate);
         $this->permissionUpdate = $this->getPermissionUpdate($type, $permissionUpdate);
         $this->permissionDelete = $this->getPermissionDelete($type, $permissionDelete);
+        $this->permissionTransactionDelete = $this->getPermissionTransactionDelete($type, $permissionTransactionDelete);
         $this->permissionButtonCustomize = $this->getPermissionButtonCustomize($type, $permissionButtonCustomize);
 
         $this->hideButtonGroupDivider1 = $hideButtonGroupDivider1;
@@ -596,7 +600,7 @@ abstract class DocumentShow extends Base
         if (!empty($media)) {
             $path = Storage::path($media->getDiskPath());
 
-            if (!is_file($path)) {
+            if (!Storage::exists($path)) {
                 return $logo;
             }
         } else {
@@ -604,11 +608,15 @@ abstract class DocumentShow extends Base
         }
 
         try {
-            $image = Image::cache(function($image) use ($path) {
+            $image = Image::cache(function($image) use ($media, $path) {
                 $width = setting('invoice.logo_size_width');
                 $height = setting('invoice.logo_size_height');
 
-                $image->make($path)->resize($width, $height)->encode();
+                if ($media) {
+                    $image->make(Storage::get($path))->resize($width, $height)->encode();
+                } else {
+                    $image->make($path)->resize($width, $height)->encode();
+                }
             });
         } catch (NotReadableException | \Exception $e) {
             Log::info('Company ID: ' . company_id() . ' components/documentshow.php exception.');
@@ -952,6 +960,17 @@ abstract class DocumentShow extends Base
         $permissionDelete = $this->getPermissionFromConfig($type, 'delete');
 
         return $permissionDelete;
+    }
+
+    protected function getPermissionTransactionDelete($type, $permissionTransactionDelete)
+    {
+        if (!empty($permissionTransactionDelete)) {
+            return $permissionTransactionDelete;
+        }
+
+        $permissionTransactionDelete = 'delete-banking-transactions';
+
+        return $permissionTransactionDelete;
     }
 
     protected function getPermissionButtonCustomize($type, $permissionButtonCustomize)
