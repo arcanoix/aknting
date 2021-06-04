@@ -7,6 +7,8 @@
     ]) !!}
         @php
             $filters = [];
+            $filtered = [];
+
             $skipped = [
                 'keys', 'names', 'types', 'routes'
             ];
@@ -38,6 +40,10 @@
                     $value = (strpos(trans('general.' . $filter_name), '|') !== false) ? trans_choice('general.' . $filter_name, 1) : trans('general.' . $filter_name);
                 }
 
+                if ($key == 'year') {
+                    $value = trans('general.financial_year');
+                }
+
                 $type = 'select';
 
                 if (isset($class->filters['types']) && !empty($class->filters['types'][$filter_name])) {
@@ -59,11 +65,19 @@
                     'url' => $url,
                     'values' => $filter_values,
                 ];
+
+                if ($key == 'year') {
+                    $filtered[] = [
+                        'option' => $key,
+                        'operator' => '=',
+                        'value' => \Date::now()->year,
+                    ];
+                }
             }
         @endphp
 
         <div class="align-items-center">
-            <x-search-string :filters="$filters" />
+            <x-search-string :filters="$filters" :filtered="$filtered" />
         </div>
     {!! Form::close() !!}
 </div>
