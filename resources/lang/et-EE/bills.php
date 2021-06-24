@@ -2,19 +2,19 @@
 
 return [
 
-    'bill_number'           => 'Arve number',
-    'bill_date'             => 'Arve kuupäev',
+    'bill_number'           => 'Ostuarve number',
+    'bill_date'             => 'Ostuarve kuupäev',
     'total_price'           => 'Hind kokku',
     'due_date'              => 'Tähtaeg',
     'order_number'          => 'Tellimuse number',
-    'bill_from'             => 'Arve saatja',
+    'bill_from'             => 'Ostuarve saatja',
 
     'quantity'              => 'Kogus',
     'price'                 => 'Hind',
     'sub_total'             => 'Vahesumma',
     'discount'              => 'Allahindlus',
     'item_discount'         => 'Rea soodustus',
-    'tax_total'             => 'Käibemaks kokku',
+    'tax_total'             => 'Maksud kokku',
     'total'                 => 'Kokku',
 
     'item_name'             => 'Kauba nimi|Kauba nimed',
@@ -34,12 +34,12 @@ return [
     'mark_cancelled'        => 'Märgi tühistatuks',
     'download_pdf'          => 'Laadi alla PDF',
     'send_mail'             => 'Saada e-kiri',
-    'create_bill'           => 'Loo arve',
-    'receive_bill'          => 'Arve vastuvõtmine',
+    'create_bill'           => 'Loo Ostuarve',
+    'receive_bill'          => 'Ostuarve vastuvõtmine',
     'make_payment'          => 'Tee makse',
 
     'messages' => [
-        'draft'             => 'See on <b> MUSTAND </b> arve ja kajastub graafikutes pärast selle vastuvõtmist.',
+        'draft'             => 'See on <b> MUSTAND </b> ostuarve ja kajastub diagrammides pärast selle vastuvõtmist.',
 
         'status' => [
             'created'       => 'Loodud :date',

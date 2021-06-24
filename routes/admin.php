@@ -39,16 +39,16 @@ Route::group(['prefix' => 'common'], function () {
     Route::get('items/{item}/disable', 'Common\Items@disable')->name('items.disable');
     Route::resource('items', 'Common\Items', ['middleware' => ['money', 'dropzone']]);
 
-    Route::resource('search', 'Common\Search');
-
     Route::post('notifications/disable', 'Common\Notifications@disable')->name('notifications.disable');
+    Route::get('notifications/readAll', 'Common\Notifications@readAll')->name('notifications.read-all');
+    Route::resource('notifications', 'Common\Notifications');
 
     Route::post('bulk-actions/{group}/{type}', 'Common\BulkActions@action')->name('bulk-actions.action');
 
     Route::get('reports/{report}/print', 'Common\Reports@print')->name('reports.print');
     Route::get('reports/{report}/export', 'Common\Reports@export')->name('reports.export');
     Route::get('reports/{report}/duplicate', 'Common\Reports@duplicate')->name('reports.duplicate');
-    Route::get('reports/clear', 'Common\Reports@clear')->name('reports.clear');
+    Route::get('reports/{report}/clear', 'Common\Reports@clear')->name('reports.clear');
     Route::get('reports/fields', 'Common\Reports@fields')->name('reports.fields');
     Route::resource('reports', 'Common\Reports');
 });

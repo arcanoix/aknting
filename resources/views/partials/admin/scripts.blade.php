@@ -5,8 +5,6 @@
 
     @stack('scripts_start')
 
-    <script src="{{ asset('public/js/common/search.js?v=' . version('short')) }}"></script>
-
     @stack('charts')
 
     <script src="{{ asset('public/vendor/chart.js/dist/Chart.min.js') }}"></script>
@@ -126,6 +124,12 @@
                 }
             })
         })();
+
+        $(document).ready(function () {
+            if ($("[data-toggle=tooltip]").length) {
+                $("[data-toggle=tooltip]").tooltip();
+            }
+        });
     </script>
 
     @stack('body_css')
@@ -137,4 +141,9 @@
     @stack('body_scripts')
 
     @livewireScripts
+
+    <!-- Livewire -->
+    <script type="text/javascript">
+        window.livewire_app_url = {{ company_id() }};
+    </script>
 @stack('scripts_end')

@@ -41,6 +41,7 @@ class Document extends Model
         'amount',
         'currency_code',
         'currency_rate',
+        'category_id',
         'contact_id',
         'contact_name',
         'contact_email',
@@ -48,9 +49,9 @@ class Document extends Model
         'contact_phone',
         'contact_address',
         'notes',
-        'category_id',
-        'parent_id',
         'footer',
+        'parent_id',
+        'created_by',
     ];
 
     /**
@@ -273,16 +274,16 @@ class Document extends Model
         $precision = config('money.' . $code . '.precision');
 
         if ($this->transactions->count()) {
-            foreach ($this->transactions as $item) {
-                $amount = $item->amount;
+            foreach ($this->transactions as $transaction) {
+                $amount = $transaction->amount;
 
-                if ($code != $item->currency_code) {
-                    $amount = $this->convertBetween($amount, $item->currency_code, $item->currency_rate, $code, $rate);
+                if ($code != $transaction->currency_code) {
+                    $amount = $this->convertBetween($amount, $transaction->currency_code, $transaction->currency_rate, $code, $rate);
                 }
 
                 $paid += $amount;
 
-                if ($item->reconciled) {
+                if ($transaction->reconciled) {
                     $reconciled_amount = +$amount;
                 }
             }
