@@ -81,6 +81,9 @@ Route::group(['prefix' => 'sales'], function () {
     Route::get('invoices/export', 'Sales\Invoices@export')->name('invoices.export');
     Route::resource('invoices', 'Sales\Invoices', ['middleware' => ['date.format', 'money', 'dropzone']]);
 
+    Route::get('revenues/{revenue}/email', 'Sales\Revenues@emailRevenue')->name('revenues.email');
+    Route::get('revenues/{revenue}/print', 'Sales\Revenues@printRevenue')->name('revenues.print');
+    Route::get('revenues/{revenue}/pdf', 'Sales\Revenues@pdfRevenue')->name('revenues.pdf');
     Route::get('revenues/{revenue}/duplicate', 'Sales\Revenues@duplicate')->name('revenues.duplicate');
     Route::post('revenues/import', 'Sales\Revenues@import')->name('revenues.import');
     Route::get('revenues/export', 'Sales\Revenues@export')->name('revenues.export');
@@ -88,12 +91,13 @@ Route::group(['prefix' => 'sales'], function () {
 
     Route::get('customers/currency', 'Sales\Customers@currency');
     Route::get('customers/{customer}/duplicate', 'Sales\Customers@duplicate')->name('customers.duplicate');
-    Route::post('customers/field', 'Sales\Customers@field')->name('customers.field');
     Route::post('customers/import', 'Sales\Customers@import')->name('customers.import');
     Route::get('customers/export', 'Sales\Customers@export')->name('customers.export');
     Route::get('customers/{customer}/enable', 'Sales\Customers@enable')->name('customers.enable');
     Route::get('customers/{customer}/disable', 'Sales\Customers@disable')->name('customers.disable');
     Route::get('customers/{customer}/currency', 'Sales\Customers@currency')->name('customers.currency');
+    Route::get('customers/{customer}/create-invoice', 'Sales\Customers@createInvoice')->name('customers.create-invoice');
+    Route::get('customers/{customer}/create-revenue', 'Sales\Customers@createRevenue')->name('customers.create-revenue');
     Route::resource('customers', 'Sales\Customers');
 });
 
@@ -109,6 +113,9 @@ Route::group(['prefix' => 'purchases'], function () {
     Route::get('bills/export', 'Purchases\Bills@export')->name('bills.export');
     Route::resource('bills', 'Purchases\Bills', ['middleware' => ['date.format', 'money', 'dropzone']]);
 
+    Route::get('payments/{payment}/email', 'Purchases\Payments@emailPayment')->name('payments.email');
+    Route::get('payments/{payment}/print', 'Purchases\Payments@printPayment')->name('payments.print');
+    Route::get('payments/{payment}/pdf', 'Purchases\Payments@pdfPayment')->name('payments.pdf');
     Route::get('payments/{payment}/duplicate', 'Purchases\Payments@duplicate')->name('payments.duplicate');
     Route::post('payments/import', 'Purchases\Payments@import')->name('payments.import');
     Route::get('payments/export', 'Purchases\Payments@export')->name('payments.export');
@@ -121,6 +128,8 @@ Route::group(['prefix' => 'purchases'], function () {
     Route::get('vendors/{vendor}/enable', 'Purchases\Vendors@enable')->name('vendors.enable');
     Route::get('vendors/{vendor}/currency', 'Purchases\Vendors@currency')->name('vendors.currency');
     Route::get('vendors/{vendor}/disable', 'Purchases\Vendors@disable')->name('vendors.disable');
+    Route::get('vendors/{vendor}/create-bill', 'Purchases\Vendors@createBill')->name('vendors.create-bill');
+    Route::get('vendors/{vendor}/create-payment', 'Purchases\Vendors@createPayment')->name('vendors.create-payment');
     Route::resource('vendors', 'Purchases\Vendors', ['middleware' => ['dropzone']]);
 });
 

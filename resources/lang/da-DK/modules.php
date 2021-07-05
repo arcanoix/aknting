@@ -27,7 +27,7 @@ return [
 
     'installed'             => ':module installeret',
     'uninstalled'           => ':module afinstalleret',
-    //'updated'               => ':module updated',
+    'updated_2'             => ':module opdateret',
     'enabled'               => ':module aktiveret',
     'disabled'              => ':module deaktiveret',
 
@@ -35,7 +35,7 @@ return [
         'installation'      => 'Installation',
         'faq'               => 'FAQ',
         'changelog'         => 'Ændringslog',
-        'reviews'           => 'Gennemsyn',
+        'reviews'           => 'Anmeldelser',
     ],
 
     'installation' => [

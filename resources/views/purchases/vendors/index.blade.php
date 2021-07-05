@@ -48,7 +48,7 @@
                                     {{ Form::bulkActionGroup($item->id, $item->name) }}
                                 </td>
                                 <td class="col-xs-4 col-sm-3 col-md-4 col-lg-3 col-xl-3">
-                                    <a class="col-aka" href="{{ route('vendors.show', $item->id) }}">{{ $item->name }}</a>
+                                    <a class="col-aka long-texts d-block" href="{{ route('vendors.show', $item->id) }}">{{ $item->name }}</a>
                                 </td>
                                 <td class="col-md-3 col-lg-3 col-xl-3 d-none d-md-block long-texts">
                                     <el-tooltip content="{{ !empty($item->phone) ? $item->phone : trans('general.na') }}"
@@ -77,12 +77,17 @@
                                             <i class="fa fa-ellipsis-h text-muted"></i>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                            <a class="dropdown-item" href="{{ route('vendors.show', $item->id) }}">{{ trans('general.show') }}</a>
-                                            <a class="dropdown-item" href="{{ route('vendors.edit', $item->id) }}">{{ trans('general.edit') }}</a>
+                                                <a class="dropdown-item" href="{{ route('vendors.show', $item->id) }}">{{ trans('general.show') }}</a>
+                                                
+                                            @can('create-purchases-vendors')
+                                                <a class="dropdown-item" href="{{ route('vendors.edit', $item->id) }}">{{ trans('general.edit') }}</a>
+                                            @endcan
+
                                             @can('create-purchases-vendors')
                                                 <div class="dropdown-divider"></div>
                                                 <a class="dropdown-item" href="{{ route('vendors.duplicate', $item->id) }}">{{ trans('general.duplicate') }}</a>
                                             @endcan
+                                            
                                             @can('delete-purchases-vendors')
                                                 <div class="dropdown-divider"></div>
                                                 {!! Form::deleteLink($item, 'vendors.destroy') !!}

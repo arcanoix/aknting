@@ -40,6 +40,6 @@ class Invoices extends Import
 
         unset($rules['document_number'], $rules['issued_at'], $rules['type']);
 
-        return $rules;
+        return $this->replaceForBatchRules($rules);
     }
 }

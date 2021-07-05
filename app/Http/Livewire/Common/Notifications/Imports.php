@@ -57,8 +57,10 @@ class Imports extends Component
     protected function getNotifications($limit = false)
     {
         $query = user()->notifications()->unread()
-            ->where('type', 'App\Notifications\Common\ImportCompleted')
-            ->orWhere('type', 'App\Notifications\Common\ImportFailed');
+            ->where(function ($query) {
+                $query->where('type', 'App\Notifications\Common\ImportCompleted')
+                    ->orWhere('type', 'App\Notifications\Common\ImportFailed');
+            });
 
         if ($limit) {
             $notifications = $query->paginate($limit);
@@ -66,10 +68,10 @@ class Imports extends Component
             $notifications = $query->get();
         }
 
-        if ($notifications->items()) {
+        if ($notifications) {
             $items = [];
 
-            foreach ($notifications->items() as $key => $notification) {
+            foreach ($notifications as $key => $notification) {
                 $data = (object) $notification->getAttribute('data');
                 $data->notification_id = $notification->getAttribute('id');
     

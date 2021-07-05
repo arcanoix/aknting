@@ -2,6 +2,9 @@
 
 namespace App\Traits;
 
+use App\Models\Banking\Transaction;
+use Illuminate\Support\Str;
+
 trait Transactions
 {
     public function isIncome()
@@ -58,5 +61,51 @@ trait Transactions
         setting([
             'transaction.type.' . $index => implode(',', $types),
         ])->save();
+    }
+
+    public function getTransactionFileName(Transaction $transaction, string $separator = '-', string $extension = 'pdf'): string
+    {
+        return $this->getSafeTransactionNumber($transaction, $separator) . $separator . time() . '.' . $extension;
+    }
+
+    public function getSafeTransactionNumber(Transaction $transaction, string $separator = '-'): string
+    {
+        return Str::slug($transaction->id, $separator, language()->getShortCode());
+    }
+
+    protected function getSettingKey($type, $setting_key)
+    {
+        $key = '';
+        $alias = config('type.' . $type . '.alias');
+
+        if (!empty($alias)) {
+            $key .= $alias . '.';
+        }
+
+        $prefix = config('type.' . $type . '.setting.prefix');
+
+        $key .= $prefix . '.' . $setting_key;
+
+        return $key;
+    }
+
+    public function storeTransactionPdfAndGetPath($transaction)
+    {
+        event(new \App\Events\Banking\TransactionPrinting($transaction));
+
+        $view = view($transaction->template_path, ['revenue' => $transaction, 'transaction' => $transaction])->render();
+        $html = mb_convert_encoding($view, 'HTML-ENTITIES', 'UTF-8');
+
+        $pdf = app('dompdf.wrapper');
+        $pdf->loadHTML($html);
+
+        $file_name = $this->getTransactionFileName($transaction);
+
+        $pdf_path = storage_path('app/temp/' . $file_name);
+
+        // Save the PDF file into temp folder
+        $pdf->save($pdf_path);
+
+        return $pdf_path;
     }
 }

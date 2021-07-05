@@ -217,6 +217,11 @@ class Company extends Eloquent implements Ownable
         return $this->hasMany('App\Models\Module\ModuleHistory');
     }
 
+    public function owner()
+    {
+        return $this->belongsTo('App\Models\Auth\User', 'id', 'created_by');
+    }
+
     public function reconciliations()
     {
         return $this->hasMany('App\Models\Banking\Reconciliation');
@@ -342,7 +347,7 @@ class Company extends Eloquent implements Ownable
             return $query->get();
         }
 
-        $limit = $request->get('limit', setting('default.list_limit', '25'));
+        $limit = (int) $request->get('limit', setting('default.list_limit', '25'));
 
         return $query->paginate($limit);
     }

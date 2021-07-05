@@ -6,6 +6,7 @@ use Date;
 use App\Abstracts\Http\Controller;
 use App\Traits\Modules as RemoteModules;
 use App\Http\Requests\Common\Notification as Request;
+use Illuminate\Support\Str;
 
 class Notifications extends Controller
 {
@@ -34,7 +35,19 @@ class Notifications extends Controller
             $notification->markAsRead();
         }
 
-        $message = trans('messages.success.duplicated', ['type' => trans_choice('general.items', 1)]);
+        // Hide New Apps Notifications
+        $module_notifications = $this->getNotifications('new-apps' );
+
+        foreach ($module_notifications as $module_notification) {
+            setting()->set('notifications.'. user()->id . '.' . $module_notification->alias . '.name', $module_notification->name);
+            setting()->set('notifications.'. user()->id . '.' . $module_notification->alias . '.message', $module_notification->alias);
+            setting()->set('notifications.'. user()->id . '.' . $module_notification->alias . '.date', Date::now());
+            setting()->set('notifications.'. user()->id . '.' . $module_notification->alias . '.status', '0');
+        }
+
+        setting()->save();
+
+        $message = trans('messages.success.clear_all', ['type' => Str::lower(trans_choice('general.notifications', 2))]);
 
         flash($message)->success();
 
@@ -55,19 +68,24 @@ class Notifications extends Controller
 
         $notifications = $this->getNotifications($path);
 
-        foreach ($notifications as $notification) {
-            if ($notification->id == $id) {
-                setting()->set('notifications.'. $path . '.' . $id . '.name', $notification->name);
-                setting()->set('notifications.'. $path . '.' . $id . '.message', $notification->message);
-                setting()->set('notifications.'. $path . '.' . $id . '.date', Date::now());
-                setting()->set('notifications.'. $path . '.' . $id . '.status', '0');
+        if ($notifications) {
+            foreach ($notifications as $notification) {
+                if ($notification->id == $id) {
+                    setting()->set('notifications.'. $path . '.' . $id . '.name', $notification->name);
+                    setting()->set('notifications.'. $path . '.' . $id . '.message', $notification->message);
+                    setting()->set('notifications.'. $path . '.' . $id . '.date', Date::now());
+                    setting()->set('notifications.'. $path . '.' . $id . '.status', '0');
 
-                setting()->save();
-                break;
+                    setting()->save();
+                    break;
+                }
             }
         }
 
         return response()->json([
+            'message' => trans('messages.success.disabled', [
+                'type' => Str::lower(trans_choice('general.notifications', 2))
+            ]),
             'success' => true,
             'error' => false,
             'data' => null,

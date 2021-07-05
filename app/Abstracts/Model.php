@@ -69,6 +69,16 @@ abstract class Model extends Eloquent implements Ownable
     }
 
     /**
+     * Owner relation.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function owner()
+    {
+        return $this->belongsTo('App\Models\Auth\User', 'created_by', 'id')->withDefault(['name' => trans('general.na')]);
+    }
+
+    /**
      * Scope to only include company data.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
@@ -113,9 +123,40 @@ abstract class Model extends Eloquent implements Ownable
             return $query->get();
         }
 
-        $limit = $request->get('limit', setting('default.list_limit', '25'));
+        $limit = (int) $request->get('limit', setting('default.list_limit', '25'));
 
         return $query->paginate($limit);
+    }
+
+    /**
+     * Scope to export the rows of the current page filtered and sorted.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param $ids
+     * @param $sort
+     * @param $id_field
+     *
+     * @return \Illuminate\Support\LazyCollection
+     */
+    public function scopeCollectForExport($query, $ids = [], $sort = 'name', $id_field = 'id')
+    {
+        $request = request();
+
+        if (!empty($ids)) {
+            $query->whereIn($id_field, (array) $ids);
+        }
+
+        $search = $request->get('search');
+
+        $query->usingSearchString($search)->sortable($sort);
+
+        $page = (int) $request->get('page');
+        $limit = (int) $request->get('limit', setting('default.list_limit', '25'));
+        $offset = $page ? ($page - 1) * $limit : 0;
+
+        $query->offset($offset)->limit($limit);
+
+        return $query->cursor();
     }
 
     /**

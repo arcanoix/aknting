@@ -49,7 +49,7 @@
                                 @if ($item->reconciled)
                                     <td class="col-xs-4 col-sm-4 col-md-3 col-lg-1 col-xl-1"><a class="col-aka" href="#">@date($item->paid_at)</a></td>
                                 @else
-                                    <td class="col-xs-4 col-sm-4 col-md-3 col-lg-1 col-xl-1"><a class="col-aka" href="{{ route('revenues.edit', $item->id) }}">@date($item->paid_at)</a></td>
+                                    <td class="col-xs-4 col-sm-4 col-md-3 col-lg-1 col-xl-1"><a class="col-aka" href="{{ route('revenues.show', $item->id) }}">@date($item->paid_at)</a></td>
                                 @endif
                                 <td class="col-xs-4 col-sm-4 col-md-3 col-lg-2 col-xl-2 text-right">@money($item->amount, $item->currency_code, true)</td>
                                 <td class="col-md-2 col-lg-3 col-xl-3 d-none d-md-block text-left">
@@ -78,23 +78,27 @@
                                     @endif
                                 </td>
                                 <td class="col-lg-2 col-xl-2 d-none d-lg-block text-left long-texts">{{ $item->category->name }}</td>
-                                <td class="col-lg-2 col-xl-2 d-none d-lg-block text-left">{{ $item->account->name }}</td>
+                                <td class="col-lg-2 col-xl-2 d-none d-lg-block text-left long-texts">{{ $item->account->name }}</td>
                                 <td class="col-xs-4 col-sm-2 col-md-2 col-lg-1 col-xl-1 text-center">
                                     <div class="dropdown">
                                         <a class="btn btn-neutral btn-sm text-light items-align-center py-2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i class="fa fa-ellipsis-h text-muted"></i>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                            <a class="dropdown-item" href="{{ route('revenues.show', $item->id) }}">{{ trans('general.show') }}</a>
+
                                             @if (!$item->reconciled)
                                                 <a class="dropdown-item" href="{{ route('revenues.edit', $item->id) }}">{{ trans('general.edit') }}</a>
                                                 <div class="dropdown-divider"></div>
                                             @endif
+
                                             @if (empty($item->document_id))
                                             @can('create-sales-revenues')
                                                 <a class="dropdown-item" href="{{ route('revenues.duplicate', $item->id) }}">{{ trans('general.duplicate') }}</a>
                                                 <div class="dropdown-divider"></div>
                                             @endcan
                                             @endif
+
                                             @if (!$item->reconciled)
                                             @can('delete-sales-revenues')
                                                 {!! Form::deleteLink($item, 'revenues.destroy') !!}

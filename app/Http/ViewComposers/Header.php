@@ -72,7 +72,13 @@ class Header
                 $new_apps = $this->getNotifications('new-apps');
 
                 if ($new_apps) {
-                    foreach ($new_apps as $new_app) {
+                    foreach ($new_apps as $key => $new_app) {
+                        if (setting('notifications.' . user()->id . '.' . $new_app->alias)) {
+                            unset($new_apps[$key]);
+
+                            continue;
+                        }
+
                         $notifications++;
                     }
                 }

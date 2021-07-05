@@ -2,12 +2,13 @@
     <div class="col-100">
         <div class="text">
             <h3>
-                {{ setting('invoice.title') }}
+                {{ $textDocumentTitle }}
             </h3>
-            @if (setting('invoice.subheading')) 
-            <h5>
-                {{ setting('invoice.subheading') }}
-            </h5>
+
+            @if ($textDocumentSubheading) 
+                <h5>
+                    {{ $textDocumentSubheading }}
+                </h5>
             @endif
         </div>
     </div>
@@ -19,7 +20,7 @@
             @stack('company_logo_start')
             @if (!$hideCompanyLogo)
                 @if (!empty($document->contact->logo) && !empty($document->contact->logo->id))
-                    <img src="{{ Storage::url($document->contact->logo->id) }}" height="128" width="128" alt="{{ $document->contact_name }}"/>
+                    <img src="{{ $logo }}" alt="{{ $document->contact_name }}"/>
                 @else
                     <img src="{{ $logo }}" alt="{{ setting('company.name') }}" />
                 @endif

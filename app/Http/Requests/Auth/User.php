@@ -6,7 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class User extends FormRequest
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -37,7 +36,7 @@ class User extends FormRequest
             $id = is_numeric($this->user) ? $this->user : $this->user->getAttribute('id');
             $password = '';
             $companies = $this->user->can('read-common-companies') ? 'required' : '';
-            $roles = $this->user->can('read-auth-roles') ? 'required' : '';
+            $roles = $this->user->can('read-auth-roles') ? 'required|array' : '';
 
             if ($this->user->contact) {
                 $email .= '|unique:contacts,NULL,'
@@ -51,7 +50,7 @@ class User extends FormRequest
             $id = null;
             $password = 'required|';
             $companies = 'required';
-            $roles = 'required';
+            $roles = 'required|array';
         }
 
         $email .= '|unique:users,email,' . $id . ',id,deleted_at,NULL';

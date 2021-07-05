@@ -87,7 +87,7 @@ class Vendors extends Controller
             $amounts['paid'] += $item->getAmountConvertedToDefault();
         });
 
-        $limit = request('limit', setting('default.list_limit', '25'));
+        $limit = (int) request('limit', setting('default.list_limit', '25'));
         $transactions = $this->paginate($transactions->sortByDesc('paid_at'), $limit);
         $bills = $this->paginate($bills->sortByDesc('issued_at'), $limit);
 
@@ -321,5 +321,19 @@ class Vendors extends Controller
         $vendor->symbol = $currency->symbol;
 
         return response()->json($vendor);
+    }
+
+    public function createBill(Contact $vendor)
+    {
+        $data['contact'] = $vendor;
+
+        return redirect()->route('bills.create')->withInput($data);
+    }
+
+    public function createPayment(Contact $vendor)
+    {
+        $data['contact'] = $vendor;
+
+        return redirect()->route('payments.create')->withInput($data);
     }
 }
