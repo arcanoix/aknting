@@ -4,12 +4,15 @@
         :class="[
             {'readonly': readonly},
             {'disabled': disabled},
+            {'hidden-year': hiddenYear},
+            {'data-value-min': dataValueMin},
             formClasses
         ]"
         :footer-error="formError"
         :prependIcon="icon"
         :readonly="readonly"
         :disabled="disabled"
+        @focus="focus"
         >
         <flat-picker slot-scope="{focus, blur}"
             :name="dataName"
@@ -93,6 +96,12 @@ export default {
         locale: {
             type: String,
             default: 'en',
+        },
+        hiddenYear: {
+            type: [Boolean, String]
+        },
+        dataValueMin: {
+            type: [Boolean, String, Date]
         }
     },
 
@@ -125,13 +134,36 @@ export default {
             this.$emit('interface', this.real_model);
             
             this.$emit('change', this.real_model);
+        },
+
+        focus() {
+            let date_wrapper_html = document.querySelectorAll('.numInputWrapper');
+            if(this.hiddenYear) {
+                date_wrapper_html.forEach((wrapper) => {
+                    wrapper.classList.add('hidden-year-flatpickr');
+                });
+            } else {
+                date_wrapper_html.forEach((wrapper) => {
+                    wrapper.classList.remove('hidden-year-flatpickr');
+                });
+            }
         }
     },
 
     watch: {
         value: function(val) {
             this.real_model = val;
-        }
+        },
+
+        dataValueMin: function(val) {
+            this.dateConfig.minDate = val;
+        },
     }
 }
 </script>
+
+<style>
+    .hidden-year-flatpickr {
+        display: none !important;
+    }
+</style>

@@ -1,5 +1,5 @@
 <template>
-    <div :id="'search-field-' + _uid" class="searh-field tags-input__wrapper">
+    <div :id="'search-field-' + _uid" class="searh-field tags-input__wrapper js-search">
         <div class="tags-group" v-for="(filter, index) in filtered" :index="index">
             <span v-if="filter.option" class="el-tag el-tag--primary el-tag--small el-tag--light el-tag-option">
                 {{ filter.option }}
@@ -148,7 +148,8 @@ export default {
             description: 'List of filters'
         },
 
-        dateConfig: null,
+        dateConfig: null
+        
     },
 
     model: {
@@ -713,6 +714,9 @@ export default {
                 this.filter_index++;
             }, this);
         }
+    },
+
+    mounted() {
     },
 
     computed: {

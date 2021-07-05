@@ -2,9 +2,10 @@
 
 namespace Tests\Feature\Common;
 
-use App\Jobs\Common\CreateDashboard;
+use App\Models\Common\Widget;
 use App\Models\Common\Dashboard;
 use Tests\Feature\FeatureTestCase;
+use App\Jobs\Common\CreateDashboard;
 
 class DashboardsTest extends FeatureTestCase
 {
@@ -12,88 +13,153 @@ class DashboardsTest extends FeatureTestCase
     {
         $this->loginAs()
             ->get(route('dashboard'))
-            ->assertStatus(200)
+            ->assertOk()
             ->assertSeeText(trans_choice('general.dashboards', 1));
     }
 
-	public function testItShouldSeeDashboardListPage()
-	{
-		$this->loginAs()
-			->get(route('dashboards.index'))
-			->assertStatus(200)
-			->assertSeeText(trans_choice('general.dashboards', 2));
-	}
+    public function testItShouldSeeDashboardListPage()
+    {
+        $this->loginAs()
+            ->get(route('dashboards.index'))
+            ->assertOk()
+            ->assertSeeText(trans_choice('general.dashboards', 2));
+    }
 
-	public function testItShouldSeeDashboardCreatePage()
-	{
-		$this->loginAs()
-			->get(route('dashboards.create'))
-			->assertStatus(200)
-			->assertSeeText(trans('general.title.new', ['type' => trans_choice('general.dashboards', 1)]));
-	}
+    public function testItShouldSeeDashboardCreatePage()
+    {
+        $this->loginAs()
+            ->get(route('dashboards.create'))
+            ->assertOk()
+            ->assertSeeText(trans('general.title.new', ['type' => trans_choice('general.dashboards', 1)]));
+    }
 
-	public function testItShouldCreateDashboard()
-	{
-		$request = $this->getRequest();
+    public function testItShouldCreateDashboard()
+    {
+        $request = $this->getRequest();
 
-		$this->loginAs()
-			->post(route('dashboards.store'), $request)
-			->assertStatus(200);
+        $this->loginAs()
+            ->post(route('dashboards.store'), $request)
+            ->assertOk();
 
-		$this->assertFlashLevel('success');
+        $this->assertFlashLevel('success');
 
-		$this->assertDatabaseHas('dashboards', $this->getAssertRequest($request));
-	}
+        $this->assertDatabaseHas('dashboards', $this->getAssertRequest($request));
+    }
 
-	public function testItShouldSeeDashboardUpdatePage()
-	{
-		$request = $this->getRequest();
+    public function testItShouldSeeDashboardUpdatePage()
+    {
+        $request = $this->getRequest();
 
         $dashboard = $this->dispatch(new CreateDashboard($request));
 
-		$this->loginAs()
-			->get(route('dashboards.edit', $dashboard->id))
-			->assertStatus(200)
-			->assertSee($dashboard->name);
-	}
+        $this->loginAs()
+            ->get(route('dashboards.edit', $dashboard->id))
+            ->assertOk()
+            ->assertSee($dashboard->name);
+    }
 
-	public function testItShouldUpdateDashboard()
-	{
-		$request = $this->getRequest();
+    public function testItShouldUpdateDashboard()
+    {
+        $request = $this->getRequest();
 
-		$dashboard = $this->dispatch(new CreateDashboard($request));
+        $dashboard = $this->dispatch(new CreateDashboard($request));
 
-		$request['name'] = $this->faker->text(15);
+        $request['name'] = $this->faker->text(15);
 
-		$this->loginAs()
-			->patch(route('dashboards.update', $dashboard->id), $request)
-			->assertStatus(200)
-			->assertSee($request['name']);
+        $this->loginAs()
+            ->patch(route('dashboards.update', $dashboard->id), $request)
+            ->assertOk()
+            ->assertSee($request['name']);
 
-		$this->assertFlashLevel('success');
+        $this->assertFlashLevel('success');
 
-		$this->assertDatabaseHas('dashboards', $this->getAssertRequest($request));
-	}
+        $this->assertDatabaseHas('dashboards', $this->getAssertRequest($request));
+    }
 
-	public function testItShouldDeleteDashboard()
-	{
-		$request = $this->getRequest();
+    public function testItShouldDeleteDashboard()
+    {
+        $request = $this->getRequest();
 
-		$tmp = $this->dispatch(new CreateDashboard($this->getRequest()));
-		$dashboard = $this->dispatch(new CreateDashboard($request));
+        $tmp = $this->dispatch(new CreateDashboard($this->getRequest()));
+        $dashboard = $this->dispatch(new CreateDashboard($request));
 
-		$this->loginAs()
-			->delete(route('dashboards.destroy', $dashboard->id))
-			->assertStatus(200);
+        $this->loginAs()
+            ->delete(route('dashboards.destroy', $dashboard->id))
+            ->assertOk();
 
-		$this->assertFlashLevel('success');
+        $this->assertFlashLevel('success');
 
-		$this->assertSoftDeleted('dashboards', $this->getAssertRequest($request));
-	}
+        $this->assertSoftDeleted('dashboards', $this->getAssertRequest($request));
+    }
+
+    public function testItShouldSeeWidgetCreate()
+    {
+        $classes = Widget::factory()->classes;
+        $class = $classes[rand(0, 9)];
+
+        $this->loginAs()
+            ->get(route('widgets.index'))
+            ->assertOk()
+            ->assertSeeText((new $class())->getDefaultName());
+    }
+
+    public function testItShouldSeeWidgetEdit()
+    {
+        $widget = Widget::create($this->getWidget());
+
+        $this->loginAs()
+            ->get(route('widgets.edit', $widget->id))
+            ->assertOk()
+            ->assertSee($widget->name);
+    }
+
+    public function testItShouldCreateWidget()
+    {
+        $request = $this->getWidget();
+
+        $this->loginAs()
+            ->post(route('widgets.store'), $request)
+            ->assertOk();
+
+        $this->assertDatabaseHas('widgets', $this->getAssertRequest($request));
+    }
+
+    public function testItShouldUpdateWidget()
+    {
+        $request = $this->getWidget();
+
+        $widget = Widget::create($request);
+
+        $request['name'] = $this->faker->name;
+
+        $this->loginAs()
+            ->patch(route('widgets.update', $widget->id), $request)
+            ->assertOk();
+
+        $this->assertDatabaseHas('widgets', $this->getAssertRequest($request));
+    }
+
+    public function testItShouldDeleteWidget()
+    {
+        $request = $this->getWidget();
+
+        $widget = Widget::create($request);
+
+        $this->loginAs()
+            ->delete(route('widgets.destroy', $widget->id))
+            ->assertOk();
+
+        $this->assertSoftDeleted('widgets', $this->getAssertRequest($request));
+    }
 
     public function getRequest()
     {
         return Dashboard::factory()->enabled()->users()->raw();
+    }
+
+    public function getWidget()
+    {
+        return Widget::factory()->raw();
     }
 
     public function getAssertRequest($request)
