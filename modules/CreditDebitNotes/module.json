@@ -1,0 +1,18 @@
+{
+    "alias": "credit-debit-notes",
+    "icon": "fas fa-file-invoice",
+    "version": "1.1.13",
+    "active": 1,
+    "providers": [
+        "Modules\\CreditDebitNotes\\Providers\\Event",
+        "Modules\\CreditDebitNotes\\Providers\\Main",
+        "Modules\\CreditDebitNotes\\Providers\\ViewComposer",
+        "Modules\\CreditDebitNotes\\Providers\\Form"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": [],
+    "reports": [],
+    "widgets": [],
+    "settings": []
+}

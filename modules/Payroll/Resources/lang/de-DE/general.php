@@ -1,0 +1,65 @@
+<?php
+
+return [
+    'name' => 'Lohn- und Gehaltsbuchhaltung',
+    'description' => 'Mitarbeitergehälter einfach verwalten und Gehaltszahlungen automatisieren',
+
+    'payrolls' => 'Lohn- und Gehaltsbuchhaltung',
+    'employees' => 'Mitarbeiter/in|Mitarbeiter/innen',
+    'benefits' => 'Vorteile|Vorteile',
+    'deductions' => 'Abzug|Abzüge',
+    'salaries' => 'Gehalt|Gehälter',
+    'pay_calendars' => 'Gehaltsauszahlungskalender|Gehaltsauszahlungskalender',
+    'variables' => 'Variable Eingaben',
+    'pay_slips' => 'Gehaltsabrechnungen',
+    'approval' => 'Freigeben',
+    'active_employee' => 'Aktive Mitarbeiter/in',
+    'advanced' => 'Erweiterte',
+    'setting' => 'Einstellungen',
+    'dashboard' => 'Dashboard',
+    'recurring' => 'Wiederkehrend',
+    'run_payrolls' => 'Lohn- und Gehaltsabrechnung ausführen|Lohn- und Gehaltsabrechnung ausführen',
+    'run_payroll_error' => 'Fehler beim Zahlungslauf',
+    'summary_reports' => 'Zusammenfassung|Zusammenfassungen',
+    'employee_reports' => 'Detaillierter Bericht|Detaillierte Berichte',
+
+    'next' => 'Weiter',
+    'approve' => 'Genehmigen',
+    'add_benefit' => 'Zuschlag hinzufügen',
+    'add_deduction' => 'Abzug hinzufügen',
+    'employee_profile_information' => 'Mitarbeiterinformation',
+    'additional_allowance' => 'Zusätzliche Zuschläge oder Abzüge nur für diesen Zahlungslauf',
+    'pay_slip_title' => 'Gehaltsabrechnung',
+    'ready_approve' => 'Bereit für Freigabe',
+
+    'weekly' => 'Wöchentlich',
+    'bi-weekly' => 'Zweiwöchentlich',
+    'monthly' => 'Monatlich',
+    'Monday' => 'Montag',
+    'Tuesday' => 'Dienstag',
+    'Wednesday' => 'Mittwoch',
+    'Thursday' => 'Donnerstag',
+    'Friday' => 'Freitag',
+    'Saturday' => 'Samstag',
+    'Sunday' => 'Sonntag',
+    'last_day' => 'Letzter Arbeitstag des Monats',
+    'specific_day' => 'Bestimmter Tag eines Monats',
+
+    'employee_summary' => 'Mitarbeiternummer',
+    'description_employee_summary' => 'Lade den Bericht zur Lohnzusammenfassung aus.',
+    'employee_detailed' => 'Mitarbeiter/in gelöscht',
+    'description_employee_detailed' => 'Führen Sie die Details des Lohnberichts nach Mitarbeiter aus.',
+    'expense_summary' => 'Ausgabenübersicht (Mitarbeiter/innen)',
+    'description_expense_summary' => 'Monatliche Kostenzusammenfassung durch Mitarbeiter/innen.',
+
+    'wizard' => [
+        'run_payroll' => 'Gehaltszahlungslauf',
+        'employees' => 'Mitarbeiter',
+        'variables' => 'Variablen',
+        'payslips' => 'Gehaltszahlung ausführen',
+        'approval' => 'Genehmigung'
+    ],
+
+    'total' => 'Total :type',
+    'add_new' => 'Neuer :type hinzufügen',
+];

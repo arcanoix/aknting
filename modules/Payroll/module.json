@@ -1,0 +1,29 @@
+{
+    "alias": "payroll",
+    "icon": "fa fa-users",
+    "version": "2.7.0",
+    "category": "payroll",
+    "active": 1,
+    "providers": [
+        "Modules\\Payroll\\Providers\\Event",
+        "Modules\\Payroll\\Providers\\Main",
+        "Modules\\Payroll\\Providers\\ViewComposer"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": [],
+    "reports": [
+        "Modules\\Payroll\\Reports\\EmployeeSummary",
+        "Modules\\Payroll\\Reports\\EmployeeDetailed"
+    ],
+    "widgets": [
+        "Modules\\Payroll\\Widgets\\TotalPayrolls",
+        "Modules\\Payroll\\Widgets\\TotalPayCalendars",
+        "Modules\\Payroll\\Widgets\\LatestPayRunRecords",
+        "Modules\\Payroll\\Widgets\\PayrollHistory"
+    ],
+    "settings": [],
+    "extra-modules": {
+        "employees": "required"
+    }
+}

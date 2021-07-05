@@ -1,0 +1,18 @@
+{
+    "name": "PrintTemplate",
+    "alias": "print-template",
+    "description": "Design and print your invoices in the format you want.",
+    "version": "2.1.8",
+    "category": "operation",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\PrintTemplate\\Providers\\PrintTemplateServiceProvider",
+        "Modules\\PrintTemplate\\Providers\\EventProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": [],
+    "settings": []
+}

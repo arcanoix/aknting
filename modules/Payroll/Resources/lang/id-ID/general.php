@@ -1,0 +1,65 @@
+<?php
+
+return [
+    'name' => 'Daftar Gaji',
+    'description' => 'Kelola gaji karyawan dengan mudah dan otomatiskan pembayaran',
+
+    'payrolls' => 'Penggajian',
+    'employees' => 'Karyawan',
+    'benefits' => 'Manfaat',
+    'deductions' => 'Potongan',
+    'salaries' => 'Gaji',
+    'pay_calendars' => 'Tanggal Gaji',
+    'variables' => 'Input Variabel',
+    'pay_slips' => 'Slip Gaji',
+    'approval' => 'Disetujui',
+    'active_employee' => 'Karyawan-karyawan Aktif',
+    'advanced' => 'Tingkat lanjut',
+    'setting' => 'Pengaturan',
+    'dashboard' => 'Dasbor',
+    'recurring' => 'Berulang',
+    'run_payrolls' => 'Jalankan Penggajian',
+    'run_payroll_error' => 'Penggajian Error',
+    'summary_reports' => 'Rangkuman Laporan',
+    'employee_reports' => 'Laporan Terperinci',
+
+    'next' => 'Berikutnya',
+    'approve' => 'Setujui',
+    'add_benefit' => 'Manfaat',
+    'add_deduction' => 'Tambah Potongan',
+    'employee_profile_information' => 'Informasi Karyawan',
+    'additional_allowance' => 'Tunjangan atau pemotongan tambahan hanya untuk pembayaran ini',
+    'pay_slip_title' => 'Slip Gaji Karyawan',
+    'ready_approve' => 'Siap Untuk Disetujui',
+
+    'weekly' => 'Mingguan',
+    'bi-weekly' => 'Dua Minggu Sekali',
+    'monthly' => 'Bulanan',
+    'Monday' => 'Senin',
+    'Tuesday' => 'Selasa',
+    'Wednesday' => 'Rabu',
+    'Thursday' => 'Kamis',
+    'Friday' => 'Jumat',
+    'Saturday' => 'Sabtu',
+    'Sunday' => 'Minggu',
+    'last_day' => 'Hari Kerja Terakhir Dalam Bulan Ini',
+    'specific_day' => 'Hari tertentu setiap bulan',
+
+    'employee_summary' => 'Ringkasan Karyawan',
+    'description_employee_summary' => 'Jalankan Ringkasan Laporan Penggajian.',
+    'employee_detailed' => 'Detil Karyawan',
+    'description_employee_detailed' => 'Jalankan Laporan Detil Penggajian Karyawan.',
+    'expense_summary' => 'Ringkasan Biaya (Karyawan)',
+    'description_expense_summary' => 'Ringkasan pengeluaran bulanan berdasarkan kategori.',
+
+    'wizard' => [
+        'run_payroll' => 'Jalankan Penggajian',
+        'employees' => 'Jalankan Karyawan',
+        'variables' => 'Jalankan Variabel',
+        'payslips' => 'Jalankan Penggajian',
+        'approval' => 'Jalankan Persetujuan'
+    ],
+
+    'total' => 'Total :jenis',
+    'add_new' => 'Tambahkan Baru :jenis',
+];

@@ -1,0 +1,65 @@
+<?php
+
+return [
+    'name' => 'كشف الرواتب',
+    'description' => 'إدارة رواتب الموظفين بطريقة سهلة آلية المدفوعات',
+
+    'payrolls' => 'كشف الرواتب',
+    'employees' => 'الموظف | الموظفين',
+    'benefits' => 'الفائدة | الفوائد',
+    'deductions' => 'المستقطع | المستقطعات',
+    'salaries' => 'الراتب | الرواتب',
+    'pay_calendars' => 'دفع التقويم | دفع التقويمات',
+    'variables' => 'متغير الإدخلات',
+    'pay_slips' => 'الكشوف',
+    'approval' => 'الموافقة',
+    'active_employee' => 'الموظفين النشطين',
+    'advanced' => 'إعدادات متقدمة',
+    'setting' => 'الإعدادات',
+    'dashboard' => 'لوحة التحكم',
+    'recurring' => 'متكرر',
+    'run_payrolls' => 'تشغيل كشف الراتب | تشغيل كشوف الرواتب',
+    'run_payroll_error' => 'تشغيل خطأ الراتب',
+    'summary_reports' => 'تقرير موجز | تقارير موجزة',
+    'employee_reports' => 'تقرير مفصل | تقارير مفصلة',
+
+    'next' => 'التالي',
+    'approve' => 'موافقة',
+    'add_benefit' => 'إضافة فائدة',
+    'add_deduction' => 'إضافة إستقطاع',
+    'employee_profile_information' => 'معلومات فائدة الموظف',
+    'additional_allowance' => 'إجازة إضافية او اقتطاع لهذا الدفع فقط',
+    'pay_slip_title' => 'كشف راتب الموظف',
+    'ready_approve' => 'جاهز للموافقة عليه',
+
+    'weekly' => 'أسبوعي',
+    'bi-weekly' => 'Bi-Weekly',
+    'monthly' => 'شهريّا',
+    'Monday' => 'الإثنين',
+    'Tuesday' => 'الثلاثاء',
+    'Wednesday' => 'الأربعاء',
+    'Thursday' => 'الخميس',
+    'Friday' => 'الجمعة',
+    'Saturday' => 'السبت',
+    'Sunday' => 'الأحد',
+    'last_day' => 'اخر يوم عمل للشهر',
+    'specific_day' => 'يوم محدد كل شهر',
+
+    'employee_summary' => 'موجز الموظف',
+    'description_employee_summary' => 'تقرير موجز لكشف الراتب.',
+    'employee_detailed' => 'تفاصيل الموظف',
+    'description_employee_detailed' => 'تقرير مفصل لكشف الراتب حسب الموظف.',
+    'expense_summary' => 'موجز المصروف (الموظف)',
+    'description_expense_summary' => 'موجز المصروف الشهري حسب الموظف.',
+
+    'wizard' => [
+        'run_payroll' => 'شغل كشف الراتب',
+        'employees' => 'تشغيل الموظفين',
+        'variables' => 'تشغيل المتغيرات',
+        'payslips' => 'تشغيل كشف الرواتب',
+        'approval' => 'تشغيل الموافقة'
+    ],
+
+    'total' => 'المجموع :type',
+    'add_new' => 'اضافة جديد :type',
+];

@@ -1,0 +1,19 @@
+{
+    "alias": "employees",
+    "icon": "fa fa-users",
+    "version": "1.4.0",
+    "active": 1,
+    "providers": [
+        "Modules\\Employees\\Providers\\Event",
+        "Modules\\Employees\\Providers\\Main"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": [],
+    "reports": [],
+    "widgets": [
+        "Modules\\Employees\\Widgets\\TotalEmployees",
+        "Modules\\Employees\\Widgets\\Profile"
+    ],
+    "settings": []
+}
