@@ -37,11 +37,11 @@ class AddCreditNotesStatistics
             view('credit-debit-notes::partials.customer.credit_notes_count', ['credit_notes_count' => $credit_notes->total()])
         );
         $view->getFactory()->startPush(
-            'customer_invoices_tab_end',
+            'customer_transactions_tab_end',
             view('credit-debit-notes::partials.customer.credit_notes_tab')
         );
         $view->getFactory()->startPush(
-            'customer_invoices_content_end',
+            'customer_transactions_content_end',
             view(
                 'credit-debit-notes::partials.customer.credit_notes_content',
                 [

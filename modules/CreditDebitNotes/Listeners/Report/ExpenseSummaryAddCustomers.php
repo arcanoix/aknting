@@ -17,7 +17,12 @@ class ExpenseSummaryAddCustomers
     public function handle(Event $event)
     {
         $report = $event->class;
+
         if (!$report instanceof ExpenseSummary) {
+            return;
+        }
+
+        if ($report->getSetting('group') != 'category') {
             return;
         }
 

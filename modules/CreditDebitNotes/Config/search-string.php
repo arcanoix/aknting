@@ -6,7 +6,14 @@ return [
         'columns' => [
             'id',
             'document_number' => ['searchable' => true],
-            'status',
+            'status' => [
+                'values' => [
+                    'draft' => 'documents.statuses.draft',
+                    'sent' => 'documents.statuses.sent',
+                    'viewed' => 'documents.statuses.viewed',
+                    'cancelled' => 'documents.statuses.cancelled',
+                ],
+            ],
             'issued_at'       => ['date' => true],
             'amount',
             'currency_code'   => [
@@ -30,7 +37,14 @@ return [
         'columns' => [
             'id',
             'document_number' => ['searchable' => true],
-            'status',
+            'status' => [
+                'values' => [
+                    'draft' => 'documents.statuses.draft',
+                    'sent' => 'documents.statuses.sent',
+                    'viewed' => 'documents.statuses.viewed',
+                    'cancelled' => 'documents.statuses.cancelled',
+                ],
+            ],
             'issued_at'       => ['date' => true],
             'amount',
             'currency_code'   => [

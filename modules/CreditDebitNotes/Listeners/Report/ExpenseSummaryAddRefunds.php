@@ -17,10 +17,16 @@ class ExpenseSummaryAddRefunds
     public function handle(Event $event)
     {
         $report = $event->class;
+
         if (!$report instanceof ExpenseSummary) {
             return;
         }
+
         if ($report->getSetting('basis') == 'cash') {
+            return;
+        }
+
+        if ($report->getSetting('group') != 'category') {
             return;
         }
 

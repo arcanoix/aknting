@@ -17,7 +17,12 @@ class IncomeSummaryAddVendors
     public function handle(Event $event)
     {
         $report = $event->class;
+
         if (!$report instanceof IncomeSummary) {
+            return;
+        }
+
+        if ($report->getSetting('group') != 'category') {
             return;
         }
 

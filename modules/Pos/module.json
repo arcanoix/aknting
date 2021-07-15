@@ -1,0 +1,18 @@
+{
+    "alias": "pos",
+    "icon": "fa fa-cog",
+    "version": "1.1.1",
+    "active": 1,
+    "providers": [
+        "Modules\\Pos\\Providers\\Event",
+        "Modules\\Pos\\Providers\\Main",
+        "Modules\\Pos\\Providers\\ViewComposer"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": [],
+    "reports": [],
+    "widgets": [],
+    "settings": [],
+    "extra-modules": {}
+}
