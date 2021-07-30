@@ -26,14 +26,14 @@
                                 :ref="'input-item-field-' + _uid"
                                 v-model="search"
                                 @input="onInput"
-                                @keyup.enter="onInput"
+                                @keydown.enter="onItemCreate"
                             />
                         </div>
                     </span>
                 </div>
 
                 <ul class="aka-select-menu-options">
-                    <div class="aka-select-menu-option" v-for="(item, index) in sortItems" :key="index" @click="onItemSeleted(index, item.id)">
+                    <div class="aka-select-menu-option" v-for="(item, index) in sortedItems" :key="index" @click="onItemSeleted(index, item.id)">
                         <div class="item-select w-100">
                             <div class="item-select-column item-select-info w-75">
                                 <b class="item-select-info-name"><span>{{ item.name }}</span></b>
@@ -52,7 +52,7 @@
                         </div>
                     </div>
 
-                    <div class="aka-select-menu-option" v-if="!sortItems.length">
+                    <div class="aka-select-menu-option" v-if="!sortedItems.length">
                         <div>
                             <strong class="text-strong" v-if="!items.length && !search">
                                 <span>{{ noDataText }}</span>
@@ -128,7 +128,6 @@ export default {
             default: () => [],
             description: 'List of Items'
         },
-
         addNew: {
             type: Object,
             default: function () {
@@ -187,18 +186,22 @@ export default {
             },
             description: "Default currency"
         },
+        searchCharLimit: {
+            type: Number,
+            default: 3,
+            description: "Character limit for item search input"
+        }
     },
 
     data() {
         return {
             item_list: [],
             selected_items: [],
-            search: '', // search cloumn model
+            search: '', // search column model
             show: {
                 item_selected: false,
                 item_list: false,
             },
-
             form: {},
             add_new: {
                 text: this.addNew.text,
@@ -215,6 +218,23 @@ export default {
                 masked: this.masked
             }
         };
+    },
+
+    mounted() {
+        if (this.dynamicCurrency.code != this.currency.code) {
+            if (!this.dynamicCurrency.decimal) {
+                this.money = {
+                    decimal: this.dynamicCurrency.decimal_mark,
+                    thousands: this.dynamicCurrency.thousands_separator,
+                    prefix: (this.dynamicCurrency.symbol_first) ? this.dynamicCurrency.symbol : '',
+                    suffix: (!this.dynamicCurrency.symbol_first) ? this.dynamicCurrency.symbol : '',
+                    precision: parseInt(this.dynamicCurrency.precision),
+                    masked: this.masked
+                };
+            } else {
+                this.money = this.dynamicCurrency;
+            }
+        }
     },
 
     methods: {
@@ -266,7 +286,17 @@ export default {
         },
 
         onInput() {
+            //to optimize performance we kept the condition that checks for if search exists or not
             if (!this.search) {
+                return;
+            }
+
+            //condition that checks if input is below the given character limit 
+            if (this.search.length < this.searchCharLimit) {
+                this.setItemList(this.items); //once the user deletes the search input, we show the overall item list
+                this.sortItems(); // we order it as wanted
+                this.$emit('input', this.search); // keep the input binded to v-model
+
                 return;
             }
 
@@ -496,13 +526,7 @@ export default {
                 this.setItemList(this.items);
             }
         },
-    },
 
-    created() {
-        this.setItemList(this.items);
-    },
-
-    computed: {
         sortItems() {
             this.item_list.sort(function (a, b) {
                 var nameA = a.value.toUpperCase(); // ignore upper and lowercase
@@ -520,9 +544,21 @@ export default {
                 return 0;
             });
 
-            return this.item_list.filter(item => {
-                return item.value.toLowerCase().includes(this.search.toLowerCase())
-            });
+            const sortedItemList = this.item_list.filter(item => 
+                item.value.toLowerCase().includes(this.search.toLowerCase())
+            );
+
+            return sortedItemList;
+        },
+    },
+
+    created() {
+        this.setItemList(this.items);
+    },
+
+    computed: {
+        sortedItems() {
+            return this.sortItems();
         },
     },
 
