@@ -18,7 +18,7 @@
                 <div class="row align-items-center">
                     {{ Form::dateGroup('started_at', trans('reconciliations.start_date'), 'calendar', ['id' => 'started_at', 'class' => 'form-control datepicker', 'required' => 'required', 'show-date-format' => company_date_format(), 'date-format' => 'Y-m-d', 'autocomplete' => 'off', 'change' => 'setDueMinDate'], request('started_at', Date::now()->firstOfMonth()->toDateString()), 'col-xl-3') }}
 
-                    {{ Form::dateGroup('ended_at', trans('reconciliations.end_date'), 'calendar', ['id' => 'ended_at', 'class' => 'form-control datepicker', 'required' => 'required', 'show-date-format' => company_date_format(), 'date-format' => 'Y-m-d', 'autocomplete' => 'off', 'min-date' => 'form.started_at', 'min-date-dynamic' => 'min_due_date', 'data-value-min' => true], request('ended_at', Date::now()->endOfMonth()->toDateString()), 'col-xl-3') }}
+                    {{ Form::dateGroup('ended_at', trans('reconciliations.end_date'), 'calendar', ['id' => 'ended_at', 'class' => 'form-control datepicker', 'required' => 'required', 'show-date-format' => company_date_format(), 'date-format' => 'Y-m-d', 'autocomplete' => 'off', 'min-date' => 'form.started_at', 'min-date-dynamic' => 'min_due_date', 'data-value-min' => true, 'period' => 30], request('ended_at', Date::now()->endOfMonth()->toDateString()), 'col-xl-3') }}
 
                     {{ Form::moneyGroup('closing_balance', trans('reconciliations.closing_balance'), 'balance-scale', ['required' => 'required', 'autofocus' => 'autofocus', 'currency' => $currency, 'dynamic-currency' => 'currency', 'input' => 'onCalculate'], request('closing_balance', 0.00), 'col-xl-2') }}
 
@@ -104,14 +104,14 @@
                             <tr class="row">
                                 <th class="col-md-9 col-lg-11 text-right d-none d-md-block">{{ trans('reconciliations.opening_balance') }}:</th>
                                 <td id="closing-balance" class="col-md-3 col-lg-1 text-right d-none d-md-block">
-                                    <span>@money($opening_balance, $account->currency_code, true)</span>
+                                    <span class="w-auto position-absolute right-4 text-sm">@money($opening_balance, $account->currency_code, true)</span>
                                 </td>
                             </tr>
                             <tr class="row">
                                 <th class="col-md-9 col-lg-11 text-right d-none d-md-block">{{ trans('reconciliations.closing_balance') }}:</th>
                                 <td id="closing-balance" class="col-md-3 col-lg-1 text-right d-none d-md-block pt-0">
                                     <div class="mt-1">
-                                        {{ Form::moneyGroup('closing_balance_total', '', '', ['disabled' => true, 'row-input' => 'true', 'v-model' => 'totals.closing_balance', 'currency' => $currency, 'dynamic-currency' => 'currency', 'money-class' => 'text-right disabled-money banking-price-text'], 0.00, 'text-right disabled-money') }}
+                                        {{ Form::moneyGroup('closing_balance_total', '', '', ['disabled' => true, 'row-input' => 'true', 'v-model' => 'totals.closing_balance', 'currency' => $currency, 'dynamic-currency' => 'currency', 'money-class' => 'text-right disabled-money banking-price-text w-auto position-absolute right-4 text-sm js-conversion-input'], 0.00, 'text-right disabled-money') }}
                                     </div>
                                 </td>
                             </tr>
@@ -119,7 +119,7 @@
                                 <th class="col-md-9 col-lg-11 text-right d-none d-md-block">{{ trans('reconciliations.cleared_amount') }}:</th>
                                 <td id="cleared-amount" class="col-md-3 col-lg-1 text-right d-none d-md-block pt-0">
                                     <div class="mt-1">
-                                        {{ Form::moneyGroup('cleared_amount_total', '', '', ['disabled' => true, 'row-input' => 'true', 'v-model' => 'totals.cleared_amount', 'currency' => $currency, 'dynamic-currency' => 'currency', 'money-class' => 'text-right disabled-money banking-price-text'], 0.00, 'text-right disabled-money') }}
+                                        {{ Form::moneyGroup('cleared_amount_total', '', '', ['disabled' => true, 'row-input' => 'true', 'v-model' => 'totals.cleared_amount', 'currency' => $currency, 'dynamic-currency' => 'currency', 'money-class' => 'text-right disabled-money banking-price-text w-auto position-absolute right-4 text-sm js-conversion-input'], 0.00, 'text-right disabled-money') }}
                                     </div>
                                 </td>
                             </tr>
@@ -127,7 +127,7 @@
                                 <th class="col-md-9 col-lg-11 text-right d-none d-md-block">{{ trans('general.difference') }}:</th>
                                 <td id="difference" class="col-md-3 col-lg-1 text-right d-none d-md-block pt-0">
                                     <div class="mt-1 difference-money">
-                                        {{ Form::moneyGroup('difference_total', '', '', ['disabled' => true, 'row-input' => 'true', 'v-model' => 'totals.difference', 'currency' => $currency, 'dynamic-currency' => 'currency', 'money-class' => 'text-right disabled-money banking-price-text'], 0.00, 'text-right disabled-money') }}
+                                        {{ Form::moneyGroup('difference_total', '', '', ['disabled' => true, 'row-input' => 'true', 'v-model' => 'totals.difference', 'currency' => $currency, 'dynamic-currency' => 'currency', 'money-class' => 'text-right disabled-money banking-price-text w-auto position-absolute right-4 text-sm js-conversion-input'], 0.00, 'text-right disabled-money') }}
                                     </div>
                                 </td>
                             </tr>

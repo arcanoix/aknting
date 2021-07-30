@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "49b08641aed852dd08fe0e3da19ea37e",
+    "content-hash": "20f8ff73204ad873550385774c9f86d1",
     "packages": [
         {
             "name": "akaunting/laravel-firewall",
@@ -629,6 +629,7 @@
         },
         {
             "name": "aws/aws-sdk-php",
+<<<<<<< HEAD
             "version": "3.185.6",
             "source": {
                 "type": "git",
@@ -639,6 +640,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/35310302912fdc3b4a0e829b84424c41e3fd9727",
                 "reference": "35310302912fdc3b4a0e829b84424c41e3fd9727",
+=======
+            "version": "3.185.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aws/aws-sdk-php.git",
+                "reference": "667a83e4a18cb75db3ce74162efc97123da96261"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/667a83e4a18cb75db3ce74162efc97123da96261",
+                "reference": "667a83e4a18cb75db3ce74162efc97123da96261",
+>>>>>>> 8b69aeeb4bf618e3cfd7ca2897a229d81465c6e9
                 "shasum": ""
             },
             "require": {
@@ -713,9 +726,15 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
+<<<<<<< HEAD
                 "source": "https://github.com/aws/aws-sdk-php/tree/3.185.6"
             },
             "time": "2021-07-02T18:13:18+00:00"
+=======
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.185.10"
+            },
+            "time": "2021-07-09T19:21:22+00:00"
+>>>>>>> 8b69aeeb4bf618e3cfd7ca2897a229d81465c6e9
         },
         {
             "name": "balping/json-raw-encoder",
@@ -765,16 +784,16 @@
         },
         {
             "name": "barryvdh/laravel-debugbar",
-            "version": "v3.5.7",
+            "version": "v3.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barryvdh/laravel-debugbar.git",
-                "reference": "88fd9cfa144b06b2549e9d487fdaec68265e791e"
+                "reference": "70b89754913fd89fef16d0170a91dbc2a5cd633a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/88fd9cfa144b06b2549e9d487fdaec68265e791e",
-                "reference": "88fd9cfa144b06b2549e9d487fdaec68265e791e",
+                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/70b89754913fd89fef16d0170a91dbc2a5cd633a",
+                "reference": "70b89754913fd89fef16d0170a91dbc2a5cd633a",
                 "shasum": ""
             },
             "require": {
@@ -834,15 +853,19 @@
             ],
             "support": {
                 "issues": "https://github.com/barryvdh/laravel-debugbar/issues",
-                "source": "https://github.com/barryvdh/laravel-debugbar/tree/v3.5.7"
+                "source": "https://github.com/barryvdh/laravel-debugbar/tree/v3.6.2"
             },
             "funding": [
+                {
+                    "url": "https://fruitcake.nl",
+                    "type": "custom"
+                },
                 {
                     "url": "https://github.com/barryvdh",
                     "type": "github"
                 }
             ],
-            "time": "2021-05-13T20:18:35+00:00"
+            "time": "2021-06-14T14:29:26+00:00"
         },
         {
             "name": "barryvdh/laravel-dompdf",
@@ -4952,16 +4975,16 @@
         },
         {
             "name": "kyslik/column-sortable",
-            "version": "6.4.0",
+            "version": "6.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Kyslik/column-sortable.git",
-                "reference": "9aef633bfe160c5a43d97e92e55983daa2696eb1"
+                "reference": "44f9da98acd31b2e871d0074bd638998990888b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Kyslik/column-sortable/zipball/9aef633bfe160c5a43d97e92e55983daa2696eb1",
-                "reference": "9aef633bfe160c5a43d97e92e55983daa2696eb1",
+                "url": "https://api.github.com/repos/Kyslik/column-sortable/zipball/44f9da98acd31b2e871d0074bd638998990888b1",
+                "reference": "44f9da98acd31b2e871d0074bd638998990888b1",
                 "shasum": ""
             },
             "require": {
@@ -5007,9 +5030,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Kyslik/column-sortable/issues",
-                "source": "https://github.com/Kyslik/column-sortable/tree/6.4.0"
+                "source": "https://github.com/Kyslik/column-sortable/tree/6.4.1"
             },
-            "time": "2020-09-11T21:17:32+00:00"
+            "time": "2021-07-09T12:15:54+00:00"
         },
         {
             "name": "laracasts/flash",
@@ -5071,6 +5094,7 @@
         },
         {
             "name": "laravel/framework",
+<<<<<<< HEAD
             "version": "v8.49.1",
             "source": {
                 "type": "git",
@@ -5081,6 +5105,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/framework/zipball/62aee1bfeefd82f160c7aa3b4c63cb2f053215c0",
                 "reference": "62aee1bfeefd82f160c7aa3b4c63cb2f053215c0",
+=======
+            "version": "v8.49.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/framework.git",
+                "reference": "d9b43ee080b4d51344b2e578aa667f85040471a2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/d9b43ee080b4d51344b2e578aa667f85040471a2",
+                "reference": "d9b43ee080b4d51344b2e578aa667f85040471a2",
+>>>>>>> 8b69aeeb4bf618e3cfd7ca2897a229d81465c6e9
                 "shasum": ""
             },
             "require": {
@@ -5235,7 +5271,11 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
+<<<<<<< HEAD
             "time": "2021-07-02T16:50:12+00:00"
+=======
+            "time": "2021-07-06T14:06:38+00:00"
+>>>>>>> 8b69aeeb4bf618e3cfd7ca2897a229d81465c6e9
         },
         {
             "name": "laravel/slack-notification-channel",
@@ -6125,16 +6165,16 @@
         },
         {
             "name": "maatwebsite/excel",
-            "version": "3.1.31",
+            "version": "3.1.32",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Maatwebsite/Laravel-Excel.git",
-                "reference": "cbe6370af70f93bd017f77ef92d32bd492a47fcb"
+                "reference": "9dc29b63a77fb7f2f514ef754af3a1b57e83cadf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/cbe6370af70f93bd017f77ef92d32bd492a47fcb",
-                "reference": "cbe6370af70f93bd017f77ef92d32bd492a47fcb",
+                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/9dc29b63a77fb7f2f514ef754af3a1b57e83cadf",
+                "reference": "9dc29b63a77fb7f2f514ef754af3a1b57e83cadf",
                 "shasum": ""
             },
             "require": {
@@ -6187,7 +6227,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Maatwebsite/Laravel-Excel/issues",
-                "source": "https://github.com/Maatwebsite/Laravel-Excel/tree/3.1.31"
+                "source": "https://github.com/Maatwebsite/Laravel-Excel/tree/3.1.32"
             },
             "funding": [
                 {
@@ -6199,7 +6239,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-06-02T17:31:29+00:00"
+            "time": "2021-07-08T10:11:21+00:00"
         },
         {
             "name": "maennchen/zipstream-php",
@@ -7209,6 +7249,7 @@
         },
         {
             "name": "nunomaduro/larastan",
+<<<<<<< HEAD
             "version": "v0.7.9",
             "source": {
                 "type": "git",
@@ -7219,6 +7260,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/nunomaduro/larastan/zipball/e14fc866fa4291788be7f62725b7261ebe45904b",
                 "reference": "e14fc866fa4291788be7f62725b7261ebe45904b",
+=======
+            "version": "v0.7.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nunomaduro/larastan.git",
+                "reference": "d684efa6f79ff34f3a516efa9db532c861438718"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nunomaduro/larastan/zipball/d684efa6f79ff34f3a516efa9db532c861438718",
+                "reference": "d684efa6f79ff34f3a516efa9db532c861438718",
+>>>>>>> 8b69aeeb4bf618e3cfd7ca2897a229d81465c6e9
                 "shasum": ""
             },
             "require": {
@@ -7282,7 +7335,11 @@
             ],
             "support": {
                 "issues": "https://github.com/nunomaduro/larastan/issues",
+<<<<<<< HEAD
                 "source": "https://github.com/nunomaduro/larastan/tree/v0.7.9"
+=======
+                "source": "https://github.com/nunomaduro/larastan/tree/v0.7.10"
+>>>>>>> 8b69aeeb4bf618e3cfd7ca2897a229d81465c6e9
             },
             "funding": [
                 {
@@ -7302,7 +7359,11 @@
                     "type": "patreon"
                 }
             ],
+<<<<<<< HEAD
             "time": "2021-07-05T10:22:59+00:00"
+=======
+            "time": "2021-07-07T12:13:19+00:00"
+>>>>>>> 8b69aeeb4bf618e3cfd7ca2897a229d81465c6e9
         },
         {
             "name": "omnipay/common",
@@ -8306,6 +8367,7 @@
         },
         {
             "name": "phpstan/phpstan",
+<<<<<<< HEAD
             "version": "0.12.91",
             "source": {
                 "type": "git",
@@ -8316,6 +8378,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/phpstan/phpstan/zipball/8226701cd228a0d63c2df995de7ab6070c69ac6a",
                 "reference": "8226701cd228a0d63c2df995de7ab6070c69ac6a",
+=======
+            "version": "0.12.92",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpstan/phpstan.git",
+                "reference": "64d4c5dc8ea96972bc18432d137a330239a5d2b2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/64d4c5dc8ea96972bc18432d137a330239a5d2b2",
+                "reference": "64d4c5dc8ea96972bc18432d137a330239a5d2b2",
+>>>>>>> 8b69aeeb4bf618e3cfd7ca2897a229d81465c6e9
                 "shasum": ""
             },
             "require": {
@@ -8346,7 +8420,11 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
+<<<<<<< HEAD
                 "source": "https://github.com/phpstan/phpstan/tree/0.12.91"
+=======
+                "source": "https://github.com/phpstan/phpstan/tree/0.12.92"
+>>>>>>> 8b69aeeb4bf618e3cfd7ca2897a229d81465c6e9
             },
             "funding": [
                 {
@@ -8366,7 +8444,11 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< HEAD
             "time": "2021-07-04T15:31:48+00:00"
+=======
+            "time": "2021-07-10T13:53:49+00:00"
+>>>>>>> 8b69aeeb4bf618e3cfd7ca2897a229d81465c6e9
         },
         {
             "name": "plank/laravel-mediable",
@@ -12868,16 +12950,16 @@
         },
         {
             "name": "fakerphp/faker",
-            "version": "v1.14.1",
+            "version": "v1.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FakerPHP/Faker.git",
-                "reference": "ed22aee8d17c7b396f74a58b1e7fefa4f90d5ef1"
+                "reference": "89c6201c74db25fa759ff16e78a4d8f32547770e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FakerPHP/Faker/zipball/ed22aee8d17c7b396f74a58b1e7fefa4f90d5ef1",
-                "reference": "ed22aee8d17c7b396f74a58b1e7fefa4f90d5ef1",
+                "url": "https://api.github.com/repos/FakerPHP/Faker/zipball/89c6201c74db25fa759ff16e78a4d8f32547770e",
+                "reference": "89c6201c74db25fa759ff16e78a4d8f32547770e",
                 "shasum": ""
             },
             "require": {
@@ -12927,9 +13009,9 @@
             ],
             "support": {
                 "issues": "https://github.com/FakerPHP/Faker/issues",
-                "source": "https://github.com/FakerPHP/Faker/tree/v.1.14.1"
+                "source": "https://github.com/FakerPHP/Faker/tree/v1.15.0"
             },
-            "time": "2021-03-30T06:27:33+00:00"
+            "time": "2021-07-06T20:39:40+00:00"
         },
         {
             "name": "filp/whoops",
