@@ -52,7 +52,9 @@ class Employees extends Controller
 
         $currency = Currency::where('code', '=', setting('default.currency'))->first();
 
-        return view('employees::employees.create', compact('positions', 'genders', 'currencies', 'currency'));
+        $file_types = $this->getFileTypes();
+
+        return view('employees::employees.create', compact('positions', 'genders', 'currencies', 'currency', 'file_types'));
     }
 
     public function store(Request $request): JsonResponse
@@ -92,19 +94,16 @@ class Employees extends Controller
 
         $currency = Currency::where('code', '=', $employee->contact->currency_code)->first();
 
-        return view('employees::employees.edit', compact('employee', 'positions', 'genders', 'currencies', 'currency'));
+        $file_types = $this->getFileTypes();
+
+        return view('employees::employees.edit', compact('employee', 'positions', 'genders', 'currencies', 'currency', 'file_types'));
     }
 
     public function update(Employee $employee, Request $request)
     {
-        $response = $this->ajaxDispatch(new UpdateEmployeeContact($employee->contact, $request));
+        $response = $this->ajaxDispatch(new UpdateEmployee($employee, $request));
 
         if ($response['success']) {
-            $request['contact_id'] = $employee->contact->id;
-            $request['created_by'] = user()->id;
-
-            $this->dispatch(new UpdateEmployee($employee, $request));
-
             $response['redirect'] = route('employees.employees.index');
 
             $message = trans('messages.success.updated', ['type' => $employee->contact->name]);
@@ -142,7 +141,7 @@ class Employees extends Controller
 
     public function disable(Employee $employee): JsonResponse
     {
-        $response = $this->ajaxDispatch(new UpdateContact($employee->contact, request()->merge(['enabled' => 0])));
+        $response = $this->ajaxDispatch(new UpdateEmployeeContact($employee->contact, request()->merge(['enabled' => 0])));
 
         if ($response['success']) {
             $response['message'] = trans('messages.success.disabled', ['type' => $employee->contact->name]);
@@ -193,5 +192,18 @@ class Employees extends Controller
         }
 
         return response()->json($response);
+    }
+
+    private function getFileTypes()
+    {
+        $file_types = [];
+
+        $file_type_mimes = explode(',', config('filesystems.mimes'));
+
+        foreach ($file_type_mimes as $mime) {
+            $file_types[] = '.' . $mime;
+        }
+
+        return implode(',', $file_types);
     }
 }

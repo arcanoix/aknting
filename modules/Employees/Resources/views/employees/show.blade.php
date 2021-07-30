@@ -38,6 +38,15 @@
                             </a>
                         </div>
                     </div>
+
+                    <div class="row align-items-center0">
+                        @php($attachment = $employee->attachment ?: [])
+                        @foreach ($attachment as $file)
+                            <div class="col-xs-12 col-sm-4 mb-4">
+                                @include('partials.media.file')
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
                 @stack('employee_profile_content_end')
             </div>

@@ -16,7 +16,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Modules\CreditDebitNotes\Models\DebitNote as Document;
-use Modules\CreditDebitNotes\Notifications\DebitNote as Notification;
 use Throwable;
 
 class DebitNotes extends Controller
@@ -167,30 +166,6 @@ class DebitNotes extends Controller
         $message = trans('documents.messages.marked_cancelled', ['type' => trans_choice('credit-debit-notes::general.debit_notes', 1)]);
 
         flash($message)->success();
-
-        return redirect()->back();
-    }
-
-    /**
-     * Sent by email the PDF file of the debit note.
-     *
-     * @param Document $debit_note
-     *
-     * @return RedirectResponse
-     * @throws Throwable
-     */
-    public function emailDebitNote(Document $debit_note)
-    {
-        if (empty($debit_note->contact_email)) {
-            return redirect()->back();
-        }
-
-        // Notify the customer
-        $debit_note->contact->notify(new Notification($debit_note, 'debit_note_new_customer', true));
-
-        event(new DocumentSent($debit_note));
-
-        flash(trans('documents.messages.email_sent', ['type' => trans_choice('credit-debit-notes::general.debit_notes', 1)]))->success();
 
         return redirect()->back();
     }

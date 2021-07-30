@@ -9,9 +9,8 @@ use Illuminate\Support\Facades\Route;
  */
 
 Route::admin('pos', function () {
-    Route::get('pos', 'Main@index')->name('pos');
+    Route::get('pos', 'Main')->name('pos');
 
-    Route::get('categories', 'Categories@index')->name('categories.index');
     Route::get('items', 'Items@index')->name('items.index');
     Route::get('customers', 'Customers@index')->name('customers.index');
 

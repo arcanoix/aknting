@@ -28,6 +28,8 @@ return [
                 'guest_customer_id'   => env('SETTING_FALLBACK_POS_GENERAL_GUEST_CUSTOMER_ID', null),
                 'sale_category_id'    => env('SETTING_FALLBACK_POS_GENERAL_SALE_CATEGORY_ID', null),
                 'change_category_id'  => env('SETTING_FALLBACK_POS_GENERAL_CHANGE_CATEGORY_ID', null),
+                'printer_paper_size'  => env('SETTING_FALLBACK_POS_GENERAL_PRINTER_PAPER_SIZE', 80),
+                'use_barcode_scanner' => env('SETTING_FALLBACK_POS_GENERAL_USE_BARCODE_SCANNER', true),
             ],
         ],
     ],

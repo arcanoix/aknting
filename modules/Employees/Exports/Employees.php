@@ -9,16 +9,7 @@ class Employees extends Export
 {
     public function collection()
     {
-        $model = Model::with(
-            'contact',
-            'position'
-        )->usingSearchString(request('search'));
-
-        if (!empty($this->ids)) {
-            $model->whereIn('id', (array)$this->ids);
-        }
-
-        return $model->cursor();
+        return Model::with(['contact', 'position'])->collectForExport($this->ids, 'contact.name');
     }
 
     public function map($model): array

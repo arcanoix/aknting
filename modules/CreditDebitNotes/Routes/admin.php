@@ -27,7 +27,6 @@ Route::admin('credit-debit-notes', function () {
     Route::group(['prefix' => 'debit-notes', 'as' => 'debit-notes.'], function () {
         Route::get('{debit_note}/sent', 'DebitNotes@markSent')->name('sent');
         Route::get('{debit_note}/cancelled', 'DebitNotes@markCancelled')->name('cancelled');
-        Route::get('{debit_note}/email', 'DebitNotes@emailDebitNote')->name('email');
         Route::get('{debit_note}/print', 'DebitNotes@printDebitNote')->name('print');
         Route::get('{debit_note}/pdf', 'DebitNotes@pdfDebitNote')->name('pdf');
         Route::get('{debit_note}/duplicate', 'DebitNotes@duplicate')->name('duplicate');

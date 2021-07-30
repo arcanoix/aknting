@@ -113,6 +113,17 @@
                     setting('pos.general.change_category_id'),
                     ['remote_action' => route('categories.index') . '?search=type:expense', 'required' => 'required']
                 ) }}
+
+                {{ Form::selectGroup(
+                    'printer_paper_size',
+                    trans('pos::settings.general.printer_paper_size'),
+                    'text-width',
+                    ['57' => '57mm (2 1/4")', '80' => '80mm (3 1/8")'],
+                    setting('pos.general.printer_paper_size'),
+                    ['required' => 'required']
+                ) }}
+
+                {{ Form::radioGroup('use_barcode_scanner', trans('pos::settings.general.use_barcode_scanner'), setting('pos.general.use_barcode_scanner')) }}
             </div>
         </div>
 

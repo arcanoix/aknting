@@ -33,11 +33,13 @@ return [
     ],
 
     'general' => [
-        'other'           => 'Other',
-        'guest_customer'  => 'Guest Customer',
-        'sale_category'   => 'Sale Category',
-        'change_category' => 'Change Category',
-        'account'         => 'Account',
+        'other'               => 'Other',
+        'guest_customer'      => 'Guest Customer',
+        'sale_category'       => 'Sale Category',
+        'change_category'     => 'Change Category',
+        'account'             => 'Account',
+        'printer_paper_size'  => 'Printer Paper Size',
+        'use_barcode_scanner' => 'Use Barcode Scanner',
     ],
 
     'email' => [

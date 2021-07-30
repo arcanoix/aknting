@@ -8,7 +8,6 @@ use App\Models\Common\Contact;
 use App\Models\Setting\Category;
 use App\Utilities\Modules;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 
 class Settings extends Seeder
 {
@@ -30,11 +29,13 @@ class Settings extends Seeder
         $card_account_id = Account::enabled()->where('name', trans('pos::settings.accounts.bank'))->pluck('id')->first();
 
         setting()->set([
-            'pos.general.guest_customer_id'  => $guest_customer_id,
-            'pos.general.sale_category_id'   => $sale_category_id,
-            'pos.general.change_category_id' => $change_category_id,
-            'pos.general.cash_account_id'    => $cash_account_id,
-            'pos.general.card_account_id'    => $card_account_id,
+            'pos.general.guest_customer_id'   => $guest_customer_id,
+            'pos.general.sale_category_id'    => $sale_category_id,
+            'pos.general.change_category_id'  => $change_category_id,
+            'pos.general.cash_account_id'     => $cash_account_id,
+            'pos.general.card_account_id'     => $card_account_id,
+            'pos.general.printer_paper_size'  => 80,
+            'pos.general.use_barcode_scanner' => true,
         ]);
 
         $offline_payment_methods = json_decode(setting('offline-payments.methods'), true);
@@ -43,10 +44,10 @@ class Settings extends Seeder
 
         if (!in_array($code, array_column($offline_payment_methods, 'code'))) {
             $offline_payment_methods[] = [
-                'code' => $code,
-                'name' => trans('pos::settings.bank_card_payment_method.name'),
-                'customer' => '0',
-                'order' => count($offline_payment_methods) + 1,
+                'code'        => $code,
+                'name'        => trans('pos::settings.bank_card_payment_method.name'),
+                'customer'    => '0',
+                'order'       => count($offline_payment_methods) + 1,
                 'description' => trans('pos::settings.bank_card_payment_method.description'),
             ];
 

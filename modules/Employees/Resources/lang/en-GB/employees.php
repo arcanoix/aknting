@@ -12,4 +12,8 @@ return [
 
     'personal_information' => 'Personal Information',
     'salary'               => 'Salary',
+
+    'messages' => [
+        'contact_missing' => 'There is no associated contact for the current user',
+    ],
 ];

@@ -14,12 +14,28 @@
     <link rel="icon" href="{{ asset('public/img/favicon.ico') }}" type="image/png">
 
     <!-- Css -->
-    <link rel="stylesheet" href="{{ asset('modules/Pos/Resources/assets/css/print.css?v=' . module_version('pos')) }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('modules/Pos/Resources/assets/css/receipt.css?v=' . module_version('pos')) }}" type="text/css">
 
     <style type="text/css">
         * {
             font-family: DejaVu Sans, sans-serif !important;
         }
+    </style>
+    <style>
+        @page {
+            size: {{ setting('pos.general.printer_paper_size') }}mm;
+            margin: 0;
+        }
+        html {
+            font-size: {{ setting('pos.general.printer_paper_size') === 80 ? '13px' : '9px' }};
+        }
+        body {
+            width: {{ setting('pos.general.printer_paper_size') }}mm;
+        }
+        /*TODO: implement cutter*/
+        /*.page-break {*/
+        /*    page-break-after: always;*/
+        /*}*/
     </style>
 </head>
 @if(isset($print))
@@ -28,7 +44,8 @@
     <body>
 @endif
     <div class="receipt pa-2">
-        <div class="text-center text-10 mb-1">
+{{--        TODO: add the company's logo--}}
+        <div class="text-center text-small mb-1">
             <div>{{ setting('company.name') }}</div>
             @if (setting('company.tax_number'))
                 <div>{{ setting('company.tax_number') }}</div>
@@ -49,11 +66,11 @@
             @foreach($order->items as $item)
                 <div>
                     <span class="half">{{ $item->name }}</span>
-                    <span class="half text-right">$ {{ $item->total }}</span>
+                    <span class="half text-right">@money($item->total, $order->currency_code, true)</span>
                 </div>
-                <div class="pl-3">{{ $item->quantity }} x {{ $item->price }}</div>
+                <div class="pl-3">{{ $item->quantity }} x {{ money($item->price, $order->currency_code, true) }}</div>
                 @if($item->discount_rate)
-                    <div class="pl-3">Discount: {{ $item->discount_rate }}%</div>
+                    <div class="pl-3">{{ trans('pos::pos.discount') }}: {{ $item->discount_rate }}%</div>
                 @endif
             @endforeach
             <div class="double-dash-line mt-1"></div>
@@ -71,9 +88,9 @@
 {{--            </div>--}}
 {{--        </div>--}}
 
-        <div class="mb-1 text-20">
-            <span class="half">TOTAL</span>
-            <span class="half text-right">$ {{ $total }}</span>
+        <div class="mb-1 text-big">
+            <span class="half text-uppercase">{{ trans('pos::pos.total') }}</span>
+            <span class="half text-right">@money($total, $order->currency_code, true)</span>
         </div>
 
 
@@ -81,27 +98,29 @@
             @foreach($payments as $payment)
                 <div>
                     <span class="half">{{ $payment['type'] }}</span>
-                    <span class="half text-right">$ {{ $payment['amount'] }}</span>
+                    <span class="half text-right">@money($payment['amount'], $order->currency_code, true)</span>
                 </div>
             @endforeach
         </div>
 
         @if($change)
-            <div class="mb-1 text-20">
-                <span class="half">CHANGE</span>
-                <span class="half text-right">$ {{ $change }}</span>
+            <div class="mb-1 text-big">
+                <span class="half text-uppercase">{{ trans('general.change') }}</span>
+                <span class="half text-right">@money($change, $order->currency_code, true)</span>
                 <div class="double-dash-line mt-1"></div>
             </div>
         @else
             <div class="double-dash-line mb-1"></div>
         @endif
 
-        <div class="text-center text-10 mb-1">Served by {{ $served_by }}</div>
+        <div class="text-center text-small mb-1">{{ trans('pos::pos.served_by') }} {{ $served_by }}</div>
 
-        <div class="text-center text-10">
-            <div>Order {{ $order->document_number }}</div>
+        <div class="text-center text-small">
+            <div>{{ trans_choice('pos::general.orders', 1) }} {{ $order->document_number }}</div>
             <div>{{ $order->issued_at }}</div>
         </div>
+
+{{--        <div class="page-break"></div>--}}
     </div>
 </body>
 </html>

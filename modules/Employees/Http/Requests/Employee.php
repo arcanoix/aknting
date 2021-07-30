@@ -40,19 +40,26 @@ class Employee extends Request
             ];
         }
 
+        $attachment = 'nullable';
+
+        if ($this->files->get('attachment')) {
+            $attachment = 'mimes:' . config('filesystems.mimes') . '|between:0,' . config('filesystems.max_size') * 1024;
+        }
+
         return [
-            'birth_day'   => 'required|date_format:Y-m-d',
-            'gender'      => 'required|string',
-            'position_id' => 'required|integer',
-            'amount'      => 'required|numeric',
-            'hired_at'    => 'required|date_format:Y-m-d',
+            'birth_day'    => 'required|date_format:Y-m-d|before_or_equal:hired_at',
+            'gender'       => 'required|string',
+            'position_id'  => 'required|integer',
+            'amount'       => 'required|numeric',
+            'hired_at'     => 'required|date_format:Y-m-d|after_or_equal:birth_day',
+            'attachment.*' => $attachment,
 
             // Contact
-            'type'        => 'required|string',
-            'name'        => 'required|string',
-            'email'       => $email_rule,
-            'phone'       => 'nullable|string',
-            'enabled'     => 'integer|boolean',
+            'type'         => 'required|string',
+            'name'         => 'required|string',
+            'email'        => $email_rule,
+            'phone'        => 'nullable|string',
+            'enabled'      => 'integer|boolean',
         ];
     }
 }

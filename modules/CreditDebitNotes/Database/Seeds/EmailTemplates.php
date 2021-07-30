@@ -20,11 +20,6 @@ class EmailTemplates extends Seeder
                 'class' => 'Modules\CreditDebitNotes\Notifications\CreditNote',
                 'name' => 'credit-debit-notes::settings.email.templates.credit_note_new_customer',
             ],
-            [
-                'alias' => 'debit_note_new_customer',
-                'class' => 'Modules\CreditDebitNotes\Notifications\DebitNote',
-                'name' => 'credit-debit-notes::settings.email.templates.debit_note_new_customer',
-            ],
         ];
 
         foreach ($templates as $template) {

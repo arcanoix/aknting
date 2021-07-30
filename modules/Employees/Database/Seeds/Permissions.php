@@ -31,7 +31,7 @@ class Permissions extends Seeder
                 'purchases-vendors' => 'c,r',
                 'settings-taxes' => 'c,r',
                 'common-widgets' => 'c,r,u,d',
-                $this->alias . '-widgets-profile' => 'r',
+                $this->alias . '-widgets-employee-profile' => 'r',
             ],
         ];
 

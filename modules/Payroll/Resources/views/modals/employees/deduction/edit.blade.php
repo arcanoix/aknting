@@ -1,7 +1,7 @@
 {!! Form::model($deduction, [
     'method' => 'PATCH',
     'id' => 'edit_benefit_form',
-    'url' => 'payroll/modals/employees/deduction/' . $deduction->id . '/update',
+    'route' => ['payroll.modals.payroll.employee.deduction.modal.update', ['company_id' => company_id(), 'deduction' => $deduction->id]],
     'role' => 'form',
     'class' => 'form-loading-button'
 ]) !!}
@@ -13,6 +13,8 @@
         {{ Form::selectGroup('recurring',  trans('payroll::general.recurring'), 'id-card', $recurring, $deduction->recurring) }}
 
         {{ Form::textareaGroup('description', trans('general.description')) }}
+
+        {!! Form::hidden('amount', $deduction->amount, ['id' => 'amount', 'class' => 'form-control', 'required' => 'required']) !!}
     </div>
 {!! Form::close() !!}
 

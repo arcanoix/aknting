@@ -2,9 +2,11 @@
 
 namespace Modules\Pos\Providers;
 
+use App\Models\Common\Item;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider as Provider;
+use Modules\Pos\Models\Barcode;
 
 class Main extends Provider
 {
@@ -18,6 +20,8 @@ class Main extends Provider
         $this->loadViews();
         $this->loadTranslations();
         $this->loadConfig();
+        $this->registerDynamicRelations();
+        $this->registerObservers();
     }
 
     /**
@@ -62,6 +66,18 @@ class Main extends Provider
         }
 
 //        $this->mergeConfigFrom(__DIR__ . '/../Config/config.php', 'expenses');
+    }
+
+    public function registerDynamicRelations()
+    {
+        Item::resolveRelationUsing('barcode', function ($item) {
+            return $item->hasOne(Barcode::class, 'item_id', 'id')
+                ->withDefault(['code' => '']);
+        });
+    }
+    public function registerObservers()
+    {
+        Item::observe('Modules\Pos\Observers\Item');
     }
 
     /**

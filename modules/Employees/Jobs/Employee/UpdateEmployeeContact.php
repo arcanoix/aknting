@@ -5,6 +5,7 @@ namespace Modules\Employees\Jobs\Employee;
 use App\Jobs\Common\UpdateContact;
 use App\Models\Auth\Role;
 use App\Models\Auth\User;
+use Illuminate\Support\Str;
 use Modules\Employees\Jobs\CreateEmployeeDashboard;
 
 class UpdateEmployeeContact extends UpdateContact
@@ -30,5 +31,25 @@ class UpdateEmployeeContact extends UpdateContact
         $this->dispatch(new CreateEmployeeDashboard($user->id));
 
         $this->request['user_id'] = $user->id;
+    }
+
+    public function countRelationships($model, $relationships): array
+    {
+        $record = new \stdClass();
+        $record->model = $model;
+        $record->relationships = $relationships;
+
+        $counter = [];
+
+        foreach ((array)$record->relationships as $relationship => $text) {
+            if (!$c = $model->$relationship()->count()) {
+                continue;
+            }
+
+            $text = Str::contains($text, '::') ? $text : 'general.' . $text;
+            $counter[] = $c . ' ' . strtolower(trans_choice($text, ($c > 1) ? 2 : 1));
+        }
+
+        return $counter;
     }
 }

@@ -78,7 +78,7 @@ Route::admin('payroll', function () {
     Route::group(['as' => 'modals.', 'prefix' => 'modals'], function () {
         Route::get('employees/deduction/{deduction}', 'Modals\EmployeeDeductions@show')->name('payroll.employee.deduction.modal.show');
         Route::get('employees/deduction/{deduction}/edit', 'Modals\EmployeeDeductions@edit')->name('payroll.employee.deduction.modal.edit');
-        Route::patch('employees/deduction/{deduction}/update', 'Modals\EmployeeDeductions@update');
+        Route::patch('employees/deduction/{deduction}/update', 'Modals\EmployeeDeductions@update')->name('payroll.employee.deduction.modal.update');
 
         Route::resource('employees/{employee}/deduction', 'Modals\EmployeeDeductions', [
             'names' => [
@@ -93,7 +93,7 @@ Route::admin('payroll', function () {
 
         Route::get('employees/benefit/{benefit}', 'Modals\EmployeeBenefits@show')->name('payroll.employee.benefit.modal.show');
         Route::get('employees/benefit/{benefit}/edit', 'Modals\EmployeeBenefits@edit')->name('payroll.employee.benefit.modal.edit');
-        Route::patch('employees/benefit/{benefit}/update', 'Modals\EmployeeBenefits@update');
+        Route::patch('employees/benefit/{benefit}/update', 'Modals\EmployeeBenefits@update')->name('payroll.employee.benefit.modal.update');
 
         Route::resource('employees/{employee}/benefit', 'Modals\EmployeeBenefits', [
             'names' => [

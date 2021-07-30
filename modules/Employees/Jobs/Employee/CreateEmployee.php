@@ -9,6 +9,8 @@ use Modules\Employees\Models\Employee;
 
 class CreateEmployee extends Job
 {
+    protected $employee;
+
     protected $request;
 
     /**
@@ -25,10 +27,21 @@ class CreateEmployee extends Job
     {
         event(new EmployeeCreating($this->request));
 
-        $employee = Employee::create($this->request->all());
+        \DB::transaction(function () {
+            $this->employee = Employee::create($this->request->all());
 
-        event(new EmployeeCreated($employee, $this->request));
+            // Upload attachment
+            if ($this->request->file('attachment')) {
+                foreach ($this->request->file('attachment') as $attachment) {
+                    $media = $this->getMedia($attachment, 'employees');
 
-        return $employee;
+                    $this->employee->attachMedia($media, 'attachment');
+                }
+            }
+        });
+
+        event(new EmployeeCreated($this->employee, $this->request));
+
+        return $this->employee;
     }
 }

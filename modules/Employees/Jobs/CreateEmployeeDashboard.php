@@ -5,7 +5,7 @@ namespace Modules\Employees\Jobs;
 use App\Abstracts\Job;
 use App\Jobs\Common\CreateDashboard;
 use Modules\Employees\Events\WidgetsCreating;
-use Modules\Employees\Widgets\Profile;
+use Modules\Employees\Widgets\EmployeeProfile;
 
 class CreateEmployeeDashboard extends Job
 {
@@ -39,7 +39,7 @@ class CreateEmployeeDashboard extends Job
     {
         $dashboard_items = new \stdClass();
         $dashboard_items->widgets = [
-            Profile::class,
+            EmployeeProfile::class,
         ];
 
         event(new WidgetsCreating($dashboard_items));

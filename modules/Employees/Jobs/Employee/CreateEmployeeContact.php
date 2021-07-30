@@ -19,7 +19,7 @@ class CreateEmployeeContact extends CreateContact
         }
 
         $data = $this->request->all();
-        $data['locale'] = setting('default.locale', 'es-MX');
+        $data['locale'] = setting('default.locale', 'en-GB');
 
         $employee_role = Role::firstWhere('name', 'employee');
 

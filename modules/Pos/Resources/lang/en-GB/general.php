@@ -7,6 +7,8 @@ return [
 
     'orders' => 'Order|Orders',
 
+    'barcode' => 'Barcode',
+
     'empty' => [
         'orders' => 'Orders keep financial data of purchases made through PoS.',
     ],

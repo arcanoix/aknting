@@ -14,7 +14,7 @@ Route::admin('employees', function () {
     Route::get('employees/export', 'Employees@export')->name('employees.export');
     Route::get('employees/{employee}/enable', 'Employees@enable')->name('employees.enable');
     Route::get('employees/{employee}/disable', 'Employees@disable')->name('employees.disable');
-    Route::resource('employees', 'Employees');
+    Route::resource('employees', 'Employees')->middleware(['dropzone']);
 
     Route::get('positions/{position}/duplicate', 'Positions@duplicate')->name('positions.duplicate');
     Route::post('positions/import', 'Positions@import')->name('positions.import');

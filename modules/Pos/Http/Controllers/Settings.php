@@ -68,6 +68,8 @@ class Settings extends Controller
             'guest_customer_id',
             'sale_category_id',
             'change_category_id',
+            'printer_paper_size',
+            'use_barcode_scanner',
         ]);
 
         foreach ($fields as $key => $value) {

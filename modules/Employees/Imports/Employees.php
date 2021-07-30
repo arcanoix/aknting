@@ -58,9 +58,11 @@ class Employees extends Import
             ]);
         }, ARRAY_FILTER_USE_BOTH);
 
-        return array_merge(
+        $rules = array_merge(
             (new ContactRequest([], ['email' => 'just a string to trigger adding the email rule']))->rules(),
             $employee_rules
         );
+
+        return $this->replaceForBatchRules($rules);
     }
 }

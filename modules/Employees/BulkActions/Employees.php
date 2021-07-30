@@ -4,27 +4,28 @@ namespace Modules\Employees\BulkActions;
 
 use App\Abstracts\BulkAction;
 use App\Jobs\Common\UpdateContact;
-use Modules\Employees\Models\Employee;
 use Modules\Employees\Jobs\Employee\DeleteEmployee;
+use Modules\Employees\Jobs\Employee\UpdateEmployeeContact;
+use Modules\Employees\Models\Employee;
 
 class Employees extends BulkAction
 {
     public $model = Employee::class;
 
     public $actions = [
-        'enable' => [
-            'name' => 'general.enable',
-            'message' => 'bulk_actions.message.enable',
+        'enable'  => [
+            'name'       => 'general.enable',
+            'message'    => 'bulk_actions.message.enable',
             'permission' => 'update-employees-employees',
         ],
         'disable' => [
-            'name' => 'general.disable',
-            'message' => 'bulk_actions.message.disable',
+            'name'       => 'general.disable',
+            'message'    => 'bulk_actions.message.disable',
             'permission' => 'update-employees-employees',
         ],
-        'delete' => [
-            'name' => 'general.delete',
-            'message' => 'bulk_actions.message.delete',
+        'delete'  => [
+            'name'       => 'general.delete',
+            'message'    => 'bulk_actions.message.delete',
             'permission' => 'delete-employees-employees',
         ],
     ];
@@ -49,7 +50,7 @@ class Employees extends BulkAction
         foreach ($employees as $employee) {
             try {
                 if ($contact = $employee->contact) {
-                    $this->dispatch(new UpdateContact($contact, ['enabled' => 0]));
+                    $this->dispatch(new UpdateEmployeeContact($contact, ['enabled' => 0]));
                 }
             } catch (\Exception $e) {
                 flash($e->getMessage())->error()->important();

@@ -89,6 +89,27 @@
     </div>
     @stack('card_salary_end')
 
+    @stack('card_attachments_start')
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                {{ Form::fileGroup(
+                    'attachment',
+                    trans('general.attachment'),
+                    '',
+                    [
+                        'dropzone-class' => 'w-100',
+                        'multiple' => 'multiple',
+                        'options' => ['acceptedFiles' => $file_types]
+                    ],
+                    null,
+                    'col-md-12'
+                ) }}
+            </div>
+        </div>
+    </div>
+    @stack('card_attachments_end')
+
     <div class="card">
         <div class="card-footer">
             <div class="row float-right">

@@ -2,8 +2,10 @@
 
 namespace Modules\Employees\Providers;
 
+use App\Models\Common\Contact;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider as Provider;
+use Modules\Employees\Models\Employee;
 
 class Main extends Provider
 {
@@ -18,6 +20,7 @@ class Main extends Provider
         $this->loadTranslations();
         $this->loadMigrations();
         $this->loadConfig();
+        $this->registerDynamicRelations();
     }
 
     /**
@@ -97,5 +100,12 @@ class Main extends Provider
         }
 
 //        $this->mergeConfigFrom(__DIR__ . '/../Config/config.php', 'credit-debit-notes');
+    }
+
+    public function registerDynamicRelations()
+    {
+        Contact::resolveRelationUsing('employee', function ($contact) {
+            return $contact->hasOne(Employee::class, 'contact_id', 'id');
+        });
     }
 }

@@ -24,13 +24,9 @@ class DeleteEmployee extends Job
         $this->authorize();
 
         \DB::transaction(function () {
-            $response = $this->ajaxDispatch(new DeleteContact($this->contact));
-
-            if ($response['error']) {
-                throw new \Exception($response['message']);
-            }
-
             $this->employee->delete();
+
+            $this->dispatch(new DeleteContact($this->contact));
         });
 
         return true;

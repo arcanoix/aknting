@@ -15,12 +15,20 @@ class Items extends Controller
 
     public function index()
     {
-        $items = Item::select(['id', 'name', 'category_id', 'sale_price as price'])
+        $items = Item::select([
+            'id',
+            'name',
+            'sku',
+            'description',
+            'category_id',
+            'sale_price as price',
+        ])
             ->enabled()
-            ->with('taxes')
+            ->with(['taxes', 'category', 'barcode'])
             ->collect();
 
         foreach ($items as $item) {
+            $item->ean_upc_barcode = $item->barcode->code;
             $item->img = $item->picture ? Storage::url($item->picture->id) : url('/modules/Pos/Resources/assets/img/item-placeholder.png');
         }
 

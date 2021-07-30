@@ -33,7 +33,6 @@
         var aka_currency = {!! !empty($currency) ? $currency : 'false' !!};
     </script>
 
-{{--    TODO: implement a translation--}}
     <script type="text/javascript">
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
@@ -46,6 +45,9 @@
         <app
             company-name="{{ setting('company.name') }}"
             user-name="{{ user()->name }}"
+            :currency="{{ $currency }}"
+            :translations="{{ json_encode($translations) }}"
+            :use-barcode-scanner="{{ setting('pos.general.use_barcode_scanner') === '0' ? 'false' : 'true' }}"
         >
         </app>
     </div>

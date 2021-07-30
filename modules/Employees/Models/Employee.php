@@ -3,6 +3,7 @@
 namespace Modules\Employees\Models;
 
 use App\Abstracts\Model;
+use App\Traits\Media;
 use Bkwld\Cloner\Cloneable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -11,9 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Employee extends Model
 {
-    use HasFactory;
-
-    use Cloneable;
+    use Cloneable, HasFactory, Media;
 
     protected $table = 'employees_employees';
 
@@ -36,6 +35,8 @@ class Employee extends Model
     protected $casts = [
         'amount' => 'double',
     ];
+
+    public $sortable = ['id'];
 
     /**
      * Cloneable relationships.
@@ -69,6 +70,17 @@ class Employee extends Model
             'female' => trans('employees::employees.female'),
             'other'  => trans('employees::employees.other')
         ];
+    }
+
+    public function getAttachmentAttribute($value = null)
+    {
+        if (!empty($value) && !$this->hasMedia('attachment')) {
+            return $value;
+        } elseif (!$this->hasMedia('attachment')) {
+            return false;
+        }
+
+        return $this->getMedia('attachment')->all();
     }
 
     public static function newFactory(): Factory

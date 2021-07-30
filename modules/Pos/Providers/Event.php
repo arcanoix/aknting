@@ -3,9 +3,16 @@
 namespace Modules\Pos\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as Provider;
+use Modules\Pos\Listeners\CloneBarcode;
 
 class Event extends Provider
 {
+    protected $listen = [
+        'cloner::cloned: App\Models\Common\Item' => [
+            CloneBarcode::class,
+        ],
+    ];
+
     /**
      * Determine if events and listeners should be automatically discovered.
      *

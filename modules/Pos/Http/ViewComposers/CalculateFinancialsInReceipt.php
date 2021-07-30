@@ -18,7 +18,7 @@ class CalculateFinancialsInReceipt
             ->map(function ($transaction) {
                 return [
                     // TODO: keep additional transactions data instead of comparing with a setting
-                    'type'   => $transaction->account_id == setting('pos.general.cash_account_id') ? 'Cash' : 'Bank',
+                    'type'   => $transaction->account_id == setting('pos.general.cash_account_id') ? trans('general.cash') : trans('pos::pos.card'),
                     'amount' => $transaction->amount,
                 ];
             });

@@ -1,0 +1,66 @@
+@charset "UTF-8";
+
+*, *::before, *::after {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    color: black;
+    background-color: white;
+}
+
+.receipt {
+    width: 100%;
+}
+
+.text-uppercase {
+    text-transform: uppercase;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-small {
+    font-size: 0.77rem;
+}
+
+.text-big {
+    font-size: 1.54rem;
+}
+
+.pa-2 {
+    padding: 1.23rem;
+}
+
+.pl-3 {
+    padding-left: 1.85rem;
+}
+
+.mt-1 {
+    margin-top: 0.62rem;
+}
+
+.mb-1 {
+    margin-bottom: 0.62rem;
+}
+
+span.half {
+    display: inline-block;
+    width: 47%;
+}
+
+.double-dash-line {
+    height: 0.31rem;
+    min-height: 3px;
+    border-top: 1px dashed black;
+    border-bottom: 1px dashed black;
+}

@@ -23,7 +23,24 @@ class UpdateEmployee extends Job
     {
         event(new EmployeeUpdating($this->employee, $this->request));
 
-        $this->employee->update($this->request->all());
+        \DB::transaction(function () {
+            // Upload attachment
+            if ($this->request->file('attachment')) {
+                $this->deleteMediaModel($this->employee, 'attachment', $this->request);
+
+                foreach ($this->request->file('attachment') as $attachment) {
+                    $media = $this->getMedia($attachment, 'employees');
+
+                    $this->employee->attachMedia($media, 'attachment');
+                }
+            } elseif (!$this->request->file('attachment') && $this->employee->attachment) {
+                $this->deleteMediaModel($this->employee, 'attachment', $this->request);
+            }
+
+            $this->employee->update($this->request->all());
+
+            $this->dispatch(new UpdateEmployeeContact($this->employee->contact, $this->request));
+        });
 
         event(new EmployeeUpdated($this->employee, $this->request));
 
