@@ -33,12 +33,13 @@ return [
     ],
 
     'general' => [
-        'other'              => 'Andere',
-        'guest_customer'     => 'Gast Kunde',
-        'sale_category'      => 'Kategorie - Einnahmen',
-        'change_category'    => 'Kategorie - Ausgaben',
-        'account'            => 'Konto',
-        'printer_paper_size' => 'Druckerpapiergröße',
+        'other'               => 'Andere',
+        'guest_customer'      => 'Gast Kunde',
+        'sale_category'       => 'Kategorie - Einnahmen',
+        'change_category'     => 'Kategorie - Ausgaben',
+        'account'             => 'Konto',
+        'printer_paper_size'  => 'Druckerpapiergröße',
+        'use_barcode_scanner' => 'Barcode Scanner verwenden',
     ],
 
     'email' => [
