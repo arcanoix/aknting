@@ -13,7 +13,8 @@ return [
             'prefix' => 'credit-notes',
         ],
         'translation'      => [
-            'prefix' => 'credit_notes',
+            'prefix'             => 'credit_notes',
+            'advanced_accordion' => 'credit-debit-notes::general.category',
         ],
         'setting'          => [
             'prefix' => 'credit_note',
@@ -36,7 +37,8 @@ return [
             'prefix' => 'debit-notes',
         ],
         'translation'      => [
-            'prefix' => 'debit_notes',
+            'prefix'             => 'debit_notes',
+            'advanced_accordion' => 'credit-debit-notes::general.category',
         ],
         'setting'          => [
             'prefix' => 'debit_note',

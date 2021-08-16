@@ -3,10 +3,10 @@
 namespace Modules\Payroll\Http\Controllers\Modals;
 
 use App\Abstracts\Http\Controller;
+use Modules\Payroll\Http\Requests\Employee\Deduction as Request;
 use Modules\Payroll\Models\Employee\Deduction;
 use Modules\Payroll\Models\Employee\Employee;
 use Modules\Payroll\Models\Setting\PayItem;
-use Modules\Payroll\Http\Requests\Employee\Deduction as Request;
 
 class EmployeeDeductions extends Controller
 {
@@ -30,16 +30,16 @@ class EmployeeDeductions extends Controller
 
         return response()->json([
             'success' => true,
-            'error' => false,
+            'error'   => false,
             'message' => null,
-            'html' => $html,
+            'html'    => $html,
         ]);
     }
 
     public function create(Employee $employee)
     {
         $recurring = [
-            'onlyonce' => trans('payroll::deductions.deduction_recurring.onlyonce'),
+            'onlyonce'   => trans('payroll::deductions.deduction_recurring.onlyonce'),
             'everycheck' => trans('payroll::deductions.deduction_recurring.everycheck'),
             'everymonth' => trans('payroll::deductions.deduction_recurring.everymonth')
         ];
@@ -50,35 +50,37 @@ class EmployeeDeductions extends Controller
 
         $currency = $employee->contact->currency;
 
-        $html = view('payroll::modals.employees.deduction.deduction', compact('employee', 'employee_id', 'type', 'recurring', 'currency'))->render();
+        $html = view('payroll::modals.employees.deduction.create', compact('employee', 'employee_id', 'type', 'recurring', 'currency'))->render();
 
         return response()->json([
             'success' => true,
-            'error' => false,
-            'data' => null,
+            'error'   => false,
+            'data'    => null,
             'message' => null,
-            'html' => $html,
+            'html'    => $html,
         ]);
     }
 
     public function store(Employee $employee, Request $request)
     {
         $deduction = Deduction::create([
-            'company_id' => $request->company_id,
-            'employee_id' => $request->employee_id,
-            'type' => $request->type,
-            'amount' => $request->amount,
+            'company_id'    => $request->company_id,
+            'employee_id'   => $request->employee_id,
+            'type'          => $request->type,
+            'amount'        => $request->amount,
             'currency_code' => $employee->contact->currency_code,
-            'recurring' => $request->recurring,
-            'description' => $request->description
+            'recurring'     => $request->recurring,
+            'description'   => $request->description,
+            'from_date'     => $request->from_date,
+            'to_date'       => $request->to_date,
         ]);
 
         $response = [
-            'success' => true,
-            'error' => false,
+            'success'  => true,
+            'error'    => false,
             'redirect' => route('employees.employees.show', ['employee' => $employee->id, 'tab' => 'payroll']),
-            'data' => [],
-            'html' => null,
+            'data'     => [],
+            'html'     => null,
         ];
 
         $message = trans('messages.success.added', ['type' => trans_choice('payroll::general.deductions', 1)]);
@@ -91,7 +93,7 @@ class EmployeeDeductions extends Controller
     public function edit(Deduction $deduction)
     {
         $recurring = [
-            'onlyonce' => trans('payroll::deductions.deduction_recurring.onlyonce'),
+            'onlyonce'   => trans('payroll::deductions.deduction_recurring.onlyonce'),
             'everycheck' => trans('payroll::deductions.deduction_recurring.everycheck'),
             'everymonth' => trans('payroll::deductions.deduction_recurring.everymonth')
         ];
@@ -104,10 +106,10 @@ class EmployeeDeductions extends Controller
 
         return response()->json([
             'success' => true,
-            'error' => false,
-            'data' => null,
+            'error'   => false,
+            'data'    => null,
             'message' => null,
-            'html' => $html,
+            'html'    => $html,
         ]);
     }
 
@@ -116,11 +118,11 @@ class EmployeeDeductions extends Controller
         $deduction->update($request->input());
 
         $response = [
-            'success' => true,
-            'error' => false,
+            'success'  => true,
+            'error'    => false,
             'redirect' => route('employees.employees.show', ['employee' => $deduction->employee_id, 'tab' => 'payroll']),
-            'data' => [],
-            'html' => null,
+            'data'     => [],
+            'html'     => null,
         ];
 
         $message = trans('messages.success.updated', ['type' => trans_choice('payroll::general.deductions', 1)]);

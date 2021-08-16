@@ -12,6 +12,10 @@
 
         {{ Form::selectGroup('recurring',  trans('payroll::general.recurring'), 'id-card', $recurring, $benefit->recurring) }}
 
+        {{ Form::textGroup('from_date', trans('payroll::general.from_date'), 'calendar', [], $benefit->from_date) }}
+
+        {{ Form::textGroup('to_date', trans('payroll::general.to_date'), 'calendar', [], $benefit->to_date) }}
+
         {{ Form::textareaGroup('description', trans('general.description')) }}
 
         {!! Form::hidden('amount', $benefit->amount, ['id' => 'amount', 'class' => 'form-control', 'required' => 'required']) !!}

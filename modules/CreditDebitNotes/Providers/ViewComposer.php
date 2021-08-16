@@ -3,16 +3,22 @@
 namespace Modules\CreditDebitNotes\Providers;
 
 use Illuminate\Support\ServiceProvider as Provider;
+use Modules\CreditDebitNotes\Http\ViewComposers\AddOriginalContactIdField;
 use Modules\CreditDebitNotes\Http\ViewComposers\Bill\ShowCreateDebitNoteMenuItem;
 use Modules\CreditDebitNotes\Http\ViewComposers\Contact\AddCreditNotesStatistics;
 use Modules\CreditDebitNotes\Http\ViewComposers\CreditNote\AddCreditCustomerAccountField;
+use Modules\CreditDebitNotes\Http\ViewComposers\CreditNote\AddInvoiceSelectionField;
+use Modules\CreditDebitNotes\Http\ViewComposers\CreditNote\PrefillCreditNote;
 use Modules\CreditDebitNotes\Http\ViewComposers\CreditNote\ShowInvoiceNumber;
+use Modules\CreditDebitNotes\Http\ViewComposers\DebitNote\AddBillSelectionField;
+use Modules\CreditDebitNotes\Http\ViewComposers\DebitNote\PrefillDebitNote;
 use Modules\CreditDebitNotes\Http\ViewComposers\DebitNote\ShowBillNumber;
 use Modules\CreditDebitNotes\Http\ViewComposers\Invoice\ReduceAmountDue;
 use Modules\CreditDebitNotes\Http\ViewComposers\Invoice\ShowAppliedCredits;
 use Modules\CreditDebitNotes\Http\ViewComposers\Invoice\ShowCreateCreditNoteButton;
 use Modules\CreditDebitNotes\Http\ViewComposers\Invoice\ShowCreditsTransactions;
 use Modules\CreditDebitNotes\Http\ViewComposers\Invoice\UseCredits;
+use Modules\CreditDebitNotes\Http\ViewComposers\ShowCustomTransactionsTable;
 use Modules\CreditDebitNotes\Http\ViewComposers\Widget\CreditsInTotalIncome;
 use Modules\CreditDebitNotes\Http\ViewComposers\Widget\CreditsInTotalProfit;
 use Modules\CreditDebitNotes\Http\ViewComposers\Widget\DebitNotesInTotalExpenses;
@@ -28,14 +34,47 @@ class ViewComposer extends Provider
      */
     public function boot()
     {
-        // Show "Credit Customer Account" toggle in an invoice
+        // Prefill a credit note when creating from an invoice
         View::composer(
             [
-                'credit-debit-notes::credit_notes.create',
-                'credit-debit-notes::credit_notes.edit',
+                'components.documents.form.metadata',
+                'components.documents.form.advanced',
             ],
+            PrefillCreditNote::class
+        );
+
+        // Show an invoice selection in a credit note
+        View::composer(
+            ['components.documents.form.metadata'],
+            AddInvoiceSelectionField::class
+        );
+
+        // Show "Credit Customer Account" toggle in a credit note
+        View::composer(
+            ['components.documents.form.metadata'],
             AddCreditCustomerAccountField::class
         );
+
+        // Prefill a debit note when creating from a bill
+        View::composer(
+            [
+                'components.documents.form.metadata',
+                'components.documents.form.advanced',
+            ],
+            PrefillDebitNote::class
+        );
+
+        // Show a bill selection in a debit note
+        View::composer(
+            ['components.documents.form.metadata'],
+            AddBillSelectionField::class
+        );
+
+        // Add a hidden 'original_contact_id' field
+        View::composer(['components.documents.form.metadata'], AddOriginalContactIdField::class);
+
+        // Show a custom transactions table in credit and debit notes
+        View::composer(['components.documents.show.transactions'], ShowCustomTransactionsTable::class);
 
         // Show an invoice number in a credit note
         View::composer(
@@ -67,7 +106,7 @@ class ViewComposer extends Provider
             ShowCreateCreditNoteButton::class
         );
 
-        // Allow to use credits in invoices
+        // Allow using credits in invoices
         View::composer(
             ['sales.invoices.show'],
             UseCredits::class

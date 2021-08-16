@@ -20,13 +20,14 @@
 @endsection
 
 @section('content')
-    <x-credit-debit-notes::documents.show.content
+    <x-documents.show.content
         type="debit-note"
         :document="$debit_note"
         hide-due-at
         hide-header-due-at
         hide-button-received
         hide-button-email
+        hide-timeline-paid
         hide-button-share
     />
 @endsection
@@ -38,9 +39,15 @@
 @endpush
 
 @push('scripts_start')
-    <link rel="stylesheet" href="{{ asset('public/css/print.css?v=' . version('short')) }}" type="text/css">
+    <script type="text/javascript">
+        var envelopeBadge = document.querySelector('span.timeline-step.badge-danger')
 
-    <x-documents.script type="debit-note" />
+        if (envelopeBadge) {
+            envelopeBadge.className = 'timeline-step badge-success'
+        }
+    </script>
+
+    <link rel="stylesheet" href="{{ asset('public/css/print.css?v=' . version('short')) }}" type="text/css">
 
     <x-documents.script
         type="debit-note"

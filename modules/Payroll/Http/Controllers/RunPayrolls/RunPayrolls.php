@@ -5,6 +5,7 @@ namespace Modules\Payroll\Http\Controllers\RunPayrolls;
 use App\Abstracts\Http\Controller;
 use App\Http\Requests\Common\Import as ImportRequest;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Modules\Payroll\Exports\RunPayrolls\RunPayrolls as Export;
 use Modules\Payroll\Http\Requests\RunPayroll\Start as Request;
 use Modules\Payroll\Imports\RunPayrolls\RunPayrolls as Import;
@@ -78,14 +79,7 @@ class RunPayrolls extends Controller
         return view('payroll::run-payrolls.create', compact('pay_calendar', 'steps'));
     }
 
-    /**
-     * Duplicate the specified resource.
-     *
-     * @param RunPayroll $run_payroll
-     *
-     * @return Response
-     */
-    public function duplicate(RunPayroll $runPayroll)
+    public function duplicate(RunPayroll $runPayroll): RedirectResponse
     {
         $clone = $this->dispatch(new DuplicateRunPayroll($runPayroll));
 
@@ -113,13 +107,6 @@ class RunPayrolls extends Controller
         return response()->json($response);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param RunPayroll $runPayroll
-     *
-     * @return Response
-     */
     public function edit(RunPayroll $runPayroll)
     {
         $run_payroll = $runPayroll;
@@ -157,10 +144,6 @@ class RunPayrolls extends Controller
             'redirect' => route('payroll.run-payrolls.variables.edit', [$runPayroll->id]),
             'data'     => [],
         ];
-
-        $message = trans('messages.success.updated', ['type' => trans_choice('payroll::general.pay_calendars', 1)]);
-
-        flash($message)->success();
 
         return response()->json($response);
     }

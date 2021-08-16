@@ -8,8 +8,8 @@ class AuthorizeDropdownMenu
 {
     public function handle(Event $event)
     {
-        $sales = trans_choice('general.sales', 2);
-        $purchases = trans_choice('general.purchases', 2);
+        $sales = trim(trans_choice('general.sales', 2));
+        $purchases = trim(trans_choice('general.purchases', 2));
 
         if (!in_array($event->item->title, [$sales, $purchases])) {
             return;

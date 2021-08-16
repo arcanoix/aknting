@@ -19,7 +19,7 @@
         hide-button-edit
         hide-button-duplicate
         text-modal-delete="pos::general.orders"
-        url-docs-path="https://akaunting.com/docs/app-manual/pos/pos"
+        url-docs-path="https://akaunting.com/docs/app-manual/point-of-sale/pos"
         create-route="pos.pos"
     />
 @endsection

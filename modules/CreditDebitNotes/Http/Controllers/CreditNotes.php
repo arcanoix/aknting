@@ -6,7 +6,7 @@ use App\Abstracts\Http\Controller;
 use App\Events\Document\DocumentCancelled;
 use App\Events\Document\DocumentPrinting;
 use App\Events\Document\DocumentSent;
-use App\Http\Requests\Document\Document as Request;
+use Modules\CreditDebitNotes\Http\Requests\CreditNote as Request;
 use App\Jobs\Document\CreateDocument;
 use App\Jobs\Document\DeleteDocument;
 use App\Jobs\Document\DuplicateDocument;
@@ -87,7 +87,7 @@ class CreditNotes extends Controller
     public function edit(Document $credit_note)
     {
         $credit_note->customer_invoices = $credit_note->contact->invoices()
-            ->whereIn('status', ['sent', 'partial'])
+            ->whereIn('status', ['sent', 'partial', 'paid'])
             ->pluck('document_number', 'id');
 
         return view('credit-debit-notes::credit_notes.edit', compact('credit_note'));

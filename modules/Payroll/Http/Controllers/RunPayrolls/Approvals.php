@@ -5,6 +5,7 @@ namespace Modules\Payroll\Http\Controllers\RunPayrolls;
 use App\Abstracts\Http\Controller;
 use App\Models\Banking\Transaction;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Modules\Payroll\Models\PayCalendar\PayCalendar;
 use Modules\Payroll\Models\RunPayroll\RunPayroll;
@@ -72,21 +73,15 @@ class Approvals extends Controller
         $runPayroll->payment_id = $payment->id;
         $runPayroll->save();
 
-        $response = [
+        return response()->json([
             'success'  => true,
             'error'    => false,
             'redirect' => route('payroll.pay-calendars.run-payrolls.attachments.edit', [$payCalendar->id, $runPayroll->id]),
             'data'     => [],
-        ];
-
-        $message = trans('messages.success.enabled', ['type' => trans_choice('payroll::general.run_payrolls', 1)]);
-
-        flash($message)->success();
-
-        return response()->json($response);
+        ]);
     }
 
-    public function not_approved(RunPayroll $runPayroll)
+    public function not_approved(RunPayroll $runPayroll): RedirectResponse
     {
         $runPayroll->status = 'not_approved';
 

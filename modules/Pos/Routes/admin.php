@@ -28,4 +28,6 @@ Route::admin('pos', function () {
         Route::get('/', 'Settings@edit')->name('edit');
         Route::patch('/', 'Settings@update')->name('update');
     });
+
+    Route::get('csrf', 'CSRF')->name('csrf');
 });

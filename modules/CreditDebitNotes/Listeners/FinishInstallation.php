@@ -51,13 +51,11 @@ class FinishInstallation
 
     protected function setDefaultSettings()
     {
-        setting()->setExtraColumns(['company_id' => company_id()]);
-        setting()->forgetAll();
-        setting()->load(true);
-
         setting()->set([
             'credit-debit-notes.credit_note.title' => trans_choice('credit-debit-notes::general.credit_notes', 1),
         ]);
+
+        setting()->save();
     }
 
     protected function addCustomTransactionTypes()

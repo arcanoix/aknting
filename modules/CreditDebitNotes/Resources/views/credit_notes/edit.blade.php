@@ -3,7 +3,7 @@
 @section('title', trans('general.title.edit', ['type' => trans_choice('credit-debit-notes::general.credit_notes', 1)]))
 
 @section('content')
-    <x-credit-debit-notes::documents.form.content
+    <x-documents.form.content
         type="credit-note"
         :document="$credit_note"
         hide-company

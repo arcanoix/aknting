@@ -126,21 +126,20 @@
                                     <th class="col-md-12" colspan="5">{{ trans_choice('payroll::general.deductions', 2) }}</th>
                                 </tr>
                             </thead>
-                        </thead>
 
-                        <tbody v-if="pay_slips.employee.deductions.length">
-                            <tr v-for="deduction in pay_slips.employee.deductions">
-                                <td class="col-md-10 text-left" colspan="4" v-html="deduction.name">-</td>
-                                <td class="col-md-2 text-right" v-html="deduction.amount">-</td>
-                            </tr>
-                        </tbody>
+                            <tbody v-if="pay_slips.employee.deductions.length">
+                                <tr v-for="deduction in pay_slips.employee.deductions">
+                                    <td class="col-md-10 text-left" colspan="4" v-html="deduction.name">-</td>
+                                    <td class="col-md-2 text-right" v-html="deduction.amount">-</td>
+                                </tr>
+                            </tbody>
 
-                        <tbody v-else>
-                            <tr>
-                                <td class="col-md-10 text-left" colspan="4">-</td>
-                                <td class="col-md-2 text-right">-</td>
-                            </tr>
-                        </tbody>
+                            <tbody v-else>
+                                <tr>
+                                    <td class="col-md-10 text-left" colspan="4">-</td>
+                                    <td class="col-md-2 text-right">-</td>
+                                </tr>
+                            </tbody>
                         </table>
                     </div>
                 </div>

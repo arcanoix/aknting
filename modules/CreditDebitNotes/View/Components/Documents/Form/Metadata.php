@@ -41,7 +41,7 @@ class Metadata extends Component
         $credit_note = new \stdClass();
         $credit_note->invoice_id = $invoice_id;
         $credit_note->customer_invoices = $invoice->contact->invoices()
-            ->whereIn('status', ['sent', 'partial'])
+            ->whereIn('status', ['sent', 'partial', 'paid'])
             ->pluck('document_number', 'id');
 
         $this->contact = $invoice->contact;
@@ -59,7 +59,7 @@ class Metadata extends Component
         $debit_note = new \stdClass();
         $debit_note->bill_id = $bill_id;
         $debit_note->vendor_bills = $bill->contact->bills()
-            ->whereIn('status', ['received', 'partial'])
+            ->whereIn('status', ['received', 'partial', 'paid'])
             ->pluck('document_number', 'id');
 
         $this->contact = $bill->contact;

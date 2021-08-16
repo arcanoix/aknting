@@ -64,14 +64,14 @@
                 </thead>
 
                 <tbody>
-                    @foreach($pay_calendar_employees as $item)
+                    @foreach($employees_data as $item)
                         <tr class="row align-items-center border-top-1">
-                            <td class="col-md-2 hidden-xs border-0"><a href="{{ route('employees.employees.show', $item->employee->id ) }}">{{ !empty($item->employee->contact) ? $item->employee->contact->name : '-' }}</a></td>
-                            <td class="col-md-2 hidden-xs border-0">{{ $item->employee->position->name }}</td>
-                            <td class="col-md-2 hidden-xs border-0 text-right">@money($item->employee->amount, $item->employee->contact->currency_code, true)</td>
-                            <td class="col-md-2 hidden-xs border-0 text-right">@money($item->employee->total_benefits, $item->employee->contact->currency_code, true)</td>
-                            <td class="col-md-2 hidden-xs border-0 text-right">@money($item->employee->total_deductions, $item->employee->contact->currency_code, true)</td>
-                            <td class="col-md-2 hidden-xs border-0 text-right">@money($item->employee->totals, $item->employee->contact->currency_code, true)</td>
+                            <td class="col-md-2 hidden-xs border-0"><a href="{{ route('employees.employees.show', $item['employee']->id ) }}">{{ !empty($item['employee']->contact) ? $item['employee']->contact->name : '-' }}</a></td>
+                            <td class="col-md-2 hidden-xs border-0">{{ $item['employee']->position->name }}</td>
+                            <td class="col-md-2 hidden-xs border-0 text-right">@money($item['employee']->amount, $item['employee']->contact->currency_code, true)</td>
+                            <td class="col-md-2 hidden-xs border-0 text-right">@money($item['benefits'], $item['employee']->contact->currency_code, true)</td>
+                            <td class="col-md-2 hidden-xs border-0 text-right">@money($item['deductions'], $item['employee']->contact->currency_code, true)</td>
+                            <td class="col-md-2 hidden-xs border-0 text-right">@money($item['totals'], $item['employee']->contact->currency_code, true)</td>
                         </tr>
                     @endforeach
                 </tbody>

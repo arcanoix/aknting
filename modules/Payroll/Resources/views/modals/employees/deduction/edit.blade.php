@@ -12,6 +12,10 @@
 
         {{ Form::selectGroup('recurring',  trans('payroll::general.recurring'), 'id-card', $recurring, $deduction->recurring) }}
 
+        {{ Form::textGroup('from_date', trans('payroll::general.from_date'), 'calendar', [], $deduction->from_date) }}
+
+        {{ Form::textGroup('to_date', trans('payroll::general.to_date'), 'calendar', [], $deduction->to_date) }}
+
         {{ Form::textareaGroup('description', trans('general.description')) }}
 
         {!! Form::hidden('amount', $deduction->amount, ['id' => 'amount', 'class' => 'form-control', 'required' => 'required']) !!}

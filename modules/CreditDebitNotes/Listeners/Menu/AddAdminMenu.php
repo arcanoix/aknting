@@ -19,7 +19,7 @@ class AddAdminMenu
 
         // Sales -> Credit Notes
         if ($user->can('read-credit-debit-notes-credit-notes')) {
-            $item = $menu->whereTitle(trans_choice('general.sales', 2));
+            $item = $menu->whereTitle(trim(trans_choice('general.sales', 2)));
             $item->url(
                 route('credit-debit-notes.credit-notes.index'),
                 trans_choice('credit-debit-notes::general.credit_notes', 2),
@@ -30,7 +30,7 @@ class AddAdminMenu
 
         // Purchases -> Debit Notes
         if ($user->can('read-credit-debit-notes-debit-notes')) {
-            $item = $menu->whereTitle(trans_choice('general.purchases', 2));
+            $item = $menu->whereTitle(trim(trans_choice('general.purchases', 2)));
             $item->url(
                 route('credit-debit-notes.debit-notes.index'),
                 trans_choice('credit-debit-notes::general.debit_notes', 2),

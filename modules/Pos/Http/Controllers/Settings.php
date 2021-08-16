@@ -69,6 +69,8 @@ class Settings extends Controller
             'sale_category_id',
             'change_category_id',
             'printer_paper_size',
+            'use_paper_cutter',
+            'show_logo_in_receipt',
             'use_barcode_scanner',
         ]);
 

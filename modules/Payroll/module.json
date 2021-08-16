@@ -1,7 +1,7 @@
 {
     "alias": "payroll",
     "icon": "fa fa-users",
-    "version": "2.7.1",
+    "version": "2.8.0",
     "category": "payroll",
     "active": 1,
     "providers": [

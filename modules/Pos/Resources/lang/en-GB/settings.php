@@ -33,13 +33,15 @@ return [
     ],
 
     'general' => [
-        'other'               => 'Other',
-        'guest_customer'      => 'Guest Customer',
-        'sale_category'       => 'Sale Category',
-        'change_category'     => 'Change Category',
-        'account'             => 'Account',
-        'printer_paper_size'  => 'Printer Paper Size',
-        'use_barcode_scanner' => 'Use Barcode Scanner',
+        'other'                => 'Other',
+        'guest_customer'       => 'Guest Customer',
+        'sale_category'        => 'Sale Category',
+        'change_category'      => 'Change Category',
+        'account'              => 'Account',
+        'printer_paper_size'   => 'Printer Paper Size',
+        'use_paper_cutter'     => 'Use Paper Cutter',
+        'show_logo_in_receipt' => 'Show Company Logo In Receipt',
+        'use_barcode_scanner'  => 'Use Barcode Scanner',
     ],
 
     'email' => [

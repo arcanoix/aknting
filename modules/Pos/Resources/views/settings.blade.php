@@ -123,6 +123,10 @@
                     ['required' => 'required']
                 ) }}
 
+                {{ Form::radioGroup('use_paper_cutter', trans('pos::settings.general.use_paper_cutter'), setting('pos.general.use_paper_cutter')) }}
+
+                {{ Form::radioGroup('show_logo_in_receipt', trans('pos::settings.general.show_logo_in_receipt'), setting('pos.general.show_logo_in_receipt')) }}
+
                 {{ Form::radioGroup('use_barcode_scanner', trans('pos::settings.general.use_barcode_scanner'), setting('pos.general.use_barcode_scanner')) }}
             </div>
         </div>

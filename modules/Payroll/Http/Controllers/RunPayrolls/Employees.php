@@ -7,14 +7,16 @@ use App\Models\Banking\Account;
 use App\Models\Setting\Category;
 use App\Models\Setting\Currency;
 use App\Utilities\Modules;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
+use Modules\Payroll\Http\Requests\RunPayroll\Start as Request;
 use Modules\Payroll\Jobs\RunPayroll\CreateRunPayroll;
 use Modules\Payroll\Models\Employee\Employee;
 use Modules\Payroll\Models\PayCalendar\Employee as PayCalendarEmployee;
 use Modules\Payroll\Models\PayCalendar\PayCalendar;
-use Modules\Payroll\Models\RunPayroll\RunPayrollEmployee;
 use Modules\Payroll\Models\RunPayroll\RunPayroll;
-use Modules\Payroll\Http\Requests\RunPayroll\Start as Request;
+use Modules\Payroll\Models\RunPayroll\RunPayrollEmployee;
+use Modules\Payroll\Services\RunPayroll as RunPayrollService;
 use Modules\Payroll\Traits\RunPayrolls as TRunPayroll;
 
 class Employees extends Controller
@@ -37,7 +39,31 @@ class Employees extends Controller
     {
         $pay_calendar = $payCalendar;
 
-        $pay_calendar_employees = PayCalendarEmployee::where('pay_calendar_id', $payCalendar->id)->get();
+        $pay_calendar_employees = PayCalendarEmployee::where('pay_calendar_id', $payCalendar->id)
+            ->with(['employee.position', 'employee.contact'])
+            ->get();
+
+        $run_payroll_service = new RunPayrollService(new RunPayroll([
+            'from_date' => Carbon::now()->startOfMonth(),
+            'to_date'   => Carbon::now()->endOfMonth(),
+        ]));
+
+        $employees_data = [];
+
+        foreach ($pay_calendar_employees as $pay_calendar_employee) {
+            $employee = $pay_calendar_employee->employee;
+
+            $benefits = $run_payroll_service->determineBenefits($employee)->sum('amount');
+
+            $deductions = $run_payroll_service->determineDeductions($employee)->sum('amount');
+
+            $employees_data[] = [
+                'employee'   => $employee,
+                'benefits'   => $benefits,
+                'deductions' => $deductions,
+                'totals'     => $employee->amount + $benefits - $deductions,
+            ];
+        }
 
         $accounts = Account::enabled()->orderBy('name')->pluck('name', 'id');
 
@@ -51,13 +77,13 @@ class Employees extends Controller
 
         $number = $this->getNextRunPayrollNumber();
 
-        $html = view('payroll::modals.run-payrolls.employees.create', compact('pay_calendar', 'pay_calendar_employees', 'accounts', 'categories', 'currency', 'payment_methods', 'number'))->render();
+        $html = view('payroll::modals.run-payrolls.employees.create', compact('pay_calendar', 'employees_data', 'accounts', 'categories', 'currency', 'payment_methods', 'number'))->render();
 
         return response()->json([
             'success' => true,
-            'error' => false,
+            'error'   => false,
             'message' => 'null',
-            'html' => $html,
+            'html'    => $html,
         ]);
     }
 
@@ -102,9 +128,9 @@ class Employees extends Controller
 
         return response()->json([
             'success' => true,
-            'error' => false,
+            'error'   => false,
             'message' => 'null',
-            'html' => $html,
+            'html'    => $html,
         ]);
     }
 
@@ -117,10 +143,10 @@ class Employees extends Controller
         flash($message)->success();
 
         $response = [
-            'success' => true,
-            'error' => false,
+            'success'  => true,
+            'error'    => false,
             'redirect' => route('payroll.run-payrolls.variables.edit', $runPayroll->id),
-            'data' => [],
+            'data'     => [],
         ];
 
         return response()->json($response);
@@ -161,16 +187,16 @@ class Employees extends Controller
 
         $json = [
             'success' => true,
-            'errors' => false,
-            'data' => [
-                'name' => $employee->name,
-                'currency' => $currency,
-                'salary' => money($employee->amount, $currency_code, true)->format(),
-                'benefits' => $benefits,
-                'total_benefit' => money($total_benefit, $currency_code, true)->format(),
-                'deductions' => $deductions,
+            'errors'  => false,
+            'data'    => [
+                'name'            => $employee->name,
+                'currency'        => $currency,
+                'salary'          => money($employee->amount, $currency_code, true)->format(),
+                'benefits'        => $benefits,
+                'total_benefit'   => money($total_benefit, $currency_code, true)->format(),
+                'deductions'      => $deductions,
                 'total_deduction' => money($total_deduction, $currency_code, true)->format(),
-                'total_amount' => money($total_amount, $currency_code, true)->format()
+                'total_amount'    => money($total_amount, $currency_code, true)->format()
             ],
         ];
 

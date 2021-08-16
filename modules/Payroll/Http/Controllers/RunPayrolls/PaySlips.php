@@ -6,6 +6,7 @@ use App\Abstracts\Http\Controller;
 use App\Utilities\Modules;
 use App\Traits\DateTime;
 use Date;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Modules\Payroll\Models\PayCalendar\PayCalendar;
 use Modules\Payroll\Models\RunPayroll\RunPayroll;
@@ -28,7 +29,7 @@ class PaySlips extends Controller
         $this->middleware('permission:delete-payroll-run-payrolls')->only('destroy');
     }
 
-    public function index(PayCalendar $payCalendar, RunPayroll $runPayroll)
+    public function index(PayCalendar $payCalendar, RunPayroll $runPayroll): JsonResponse
     {
         $employees = (new RunPayrollService($runPayroll))->getEmployeesForSelectBox();
 
@@ -40,7 +41,7 @@ class PaySlips extends Controller
         ]);
     }
 
-    public function store(PayCalendar $payCalendar, RunPayroll $runPayroll, Request $request)
+    public function store(PayCalendar $payCalendar, RunPayroll $runPayroll, Request $request): JsonResponse
     {
         $response = [
             'success' => true,
@@ -49,14 +50,10 @@ class PaySlips extends Controller
             'data' => [],
         ];
 
-        $message = trans('messages.success.enabled', ['type' => trans_choice('payroll::general.run_payrolls', 1)]);
-
-        flash($message)->success();
-
         return response()->json($response);
     }
 
-    public function edit(RunPayroll $runPayroll)
+    public function edit(RunPayroll $runPayroll): JsonResponse
     {
         $payCalendar = $runPayroll->pay_calendar;
 
@@ -70,7 +67,7 @@ class PaySlips extends Controller
         ]);
     }
 
-    public function employee(PayCalendar $payCalendar, RunPayroll $runPayroll, $employee_id)
+    public function employee(PayCalendar $payCalendar, RunPayroll $runPayroll, $employee_id): JsonResponse
     {
         return response()->json([
             'success' => true,
@@ -86,7 +83,7 @@ class PaySlips extends Controller
         ]);
     }
 
-    public function getPaySlipData(RunPayroll $runPayroll, $employee_id)
+    public function getPaySlipData(RunPayroll $runPayroll, $employee_id): array
     {
         $run_payroll_employee = $runPayroll->employees()
             ->where('employee_id', $employee_id)

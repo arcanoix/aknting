@@ -11,12 +11,16 @@ class Item extends Observer
     {
         $all_attributes = $item->allAttributes;
 
-        if (isset($all_attributes['ean_upc_barcode'])) {
-            $item->barcode()->updateOrCreate(
-                ['company_id' => $item->company_id],
-                ['code' => $all_attributes['ean_upc_barcode']],
-            );
+        $barcode = $all_attributes['ean_upc_barcode'] ?? $all_attributes['barcode'] ?? null;
+
+        if (!$barcode) {
+            return;
         }
+
+        $item->barcode()->updateOrCreate(
+            ['company_id' => $item->company_id],
+            ['code' => $barcode],
+        );
     }
 
     public function deleted(Model $item)

@@ -6,7 +6,6 @@ use App\Abstracts\Http\Controller;
 use App\Events\Document\DocumentCancelled;
 use App\Events\Document\DocumentPrinting;
 use App\Events\Document\DocumentSent;
-use App\Http\Requests\Document\Document as Request;
 use App\Jobs\Document\CreateDocument;
 use App\Jobs\Document\DeleteDocument;
 use App\Jobs\Document\DuplicateDocument;
@@ -15,8 +14,8 @@ use App\Traits\Documents;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
+use Modules\CreditDebitNotes\Http\Requests\DebitNote as Request;
 use Modules\CreditDebitNotes\Models\DebitNote as Document;
-use Throwable;
 
 class DebitNotes extends Controller
 {
@@ -83,7 +82,7 @@ class DebitNotes extends Controller
     public function edit(Document $debit_note)
     {
         $debit_note->vendor_bills = $debit_note->contact->bills()
-            ->whereIn('status', ['received', 'partial'])
+            ->whereIn('status', ['received', 'partial', 'paid'])
             ->pluck('document_number', 'id');
 
         return view('credit-debit-notes::debit_notes.edit', compact('debit_note'));

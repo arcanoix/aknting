@@ -15,32 +15,33 @@ Route::admin('payroll', function () {
 
     Route::get('getType', 'PayCalendars\PayCalendarTypes@getType')->name('pay-calendars.pay.type');
 
-    // Create run payroll page and steps
-    Route::get('pay-calendars/{payCalendar}/run-payrolls/create', 'RunPayrolls\RunPayrolls@create')->name('pay-calendars.run-payrolls.create');
+    // Run payroll steps
+    Route::group(['prefix' => 'pay-calendars/{payCalendar}/run-payrolls', 'as' => 'pay-calendars.run-payrolls.', 'namespace' => 'RunPayrolls'], function () {
+        // Create run payroll page and steps
+        Route::get('create', 'RunPayrolls@create')->name('create');
 
-    // Run payroll first step
-    Route::get('pay-calendars/{payCalendar}/run-payrolls/employees/create', 'RunPayrolls\Employees@create')->name('pay-calendars.run-payrolls.employees.create');
-    Route::post('pay-calendars/{payCalendar}/run-payrolls/employees', 'RunPayrolls\Employees@store')->name('pay-calendars.run-payrolls.employees.store');
+        // 1st step
+        Route::get('employees/create', 'Employees@create')->name('employees.create');
+        Route::post('employees', 'Employees@store')->name('employees.store');
 
-    // Run payroll second step
-    Route::get('pay-calendars/{payCalendar}/run-payrolls/{runPayroll}/variables/create', 'RunPayrolls\Variables@create')->name('pay-calendars.run-payrolls.variables.create');
-    Route::post('pay-calendars/{payCalendar}/run-payrolls/{runPayroll}/variables', 'RunPayrolls\Variables@store')->name('pay-calendars.run-payrolls.variables.store');
+        // 2nd step
+        Route::get('{runPayroll}/variables/create', 'Variables@create')->name('variables.create');
+        Route::post('{runPayroll}/variables', 'Variables@store')->name('variables.store');
 
-    // Run payroll third step
-    Route::get('pay-calendars/{payCalendar}/run-payrolls/{runPayroll}/pay-slips', 'RunPayrolls\PaySlips@index')->name('pay-calendars.run-payrolls.pay-slips.index');
-    Route::post('pay-calendars/{payCalendar}/run-payrolls/{runPayroll}/pay-slips', 'RunPayrolls\PaySlips@store')->name('pay-calendars.run-payrolls.pay-slips.post');
-    Route::get('pay-calendars/{payCalendar}/run-payrolls/{runPayroll}/pay-slips/employees/{employee}', 'RunPayrolls\PaySlips@employee')->name('pay-calendars.run-payrolls.pay-slips.employee');
-    Route::get('pay-calendars/{payCalendar}/run-payrolls/{runPayroll}/pay-slips/{employee}/print', 'RunPayrolls\PaySlips@print')->name('pay-calendars.run-payrolls.pay-slips.print');
+        // 3rd step
+        Route::get('{runPayroll}/pay-slips', 'PaySlips@index')->name('pay-slips.index');
+        Route::post('{runPayroll}/pay-slips', 'PaySlips@store')->name('pay-slips.post');
+        Route::get('{runPayroll}/pay-slips/employees/{employee}', 'PaySlips@employee')->name('pay-slips.employee');
+        Route::get('{runPayroll}/pay-slips/{employee}/print', 'PaySlips@print')->name('pay-slips.print');
 
-    // Run Payroll fourth step.
-    Route::get('pay-calendars/{payCalendar}/run-payrolls/{runPayroll}/approvals', 'RunPayrolls\Approvals@edit')->name('pay-calendars.run-payrolls.approvals.edit');
-    Route::post('pay-calendars/{payCalendar}/run-payrolls/{runPayroll}/approvals', 'RunPayrolls\Approvals@update')->name('pay-calendars.run-payrolls.approvals.update');
+        // 4th step.
+        Route::get('{runPayroll}/approvals', 'Approvals@edit')->name('approvals.edit');
+        Route::post('{runPayroll}/approvals', 'Approvals@update')->name('approvals.update');
 
-    // Run Payroll last step.
-    Route::get('pay-calendars/{payCalendar}/run-payrolls/{runPayroll}/attachments/edit', 'RunPayrolls\Attachments@edit')->name('pay-calendars.run-payrolls.attachments.edit');
-    Route::post('pay-calendars/{payCalendar}/run-payrolls/{runPayroll}/attachments', 'RunPayrolls\Attachments@update')
-        ->name('pay-calendars.run-payrolls.attachments.update')
-        ->middleware(['dropzone']);
+        // Run Payroll last step.
+        Route::get('{runPayroll}/attachments/edit', 'Attachments@edit')->name('attachments.edit');
+        Route::post('{runPayroll}/attachments', 'Attachments@update')->name('attachments.update')->middleware(['dropzone']);
+    });
 
     // Pay Calendars
     Route::get('pay-calendars/{payCalendar}/duplicate', 'PayCalendars\PayCalendars@duplicate')->name('pay-calendars.duplicate');

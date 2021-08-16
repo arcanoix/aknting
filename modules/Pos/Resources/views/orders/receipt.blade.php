@@ -32,10 +32,9 @@
         body {
             width: {{ setting('pos.general.printer_paper_size') }}mm;
         }
-        /*TODO: implement cutter*/
-        /*.page-break {*/
-        /*    page-break-after: always;*/
-        /*}*/
+        .page-break {
+            page-break-after: always;
+        }
     </style>
 </head>
 @if(isset($print))
@@ -44,7 +43,12 @@
     <body>
 @endif
     <div class="receipt pa-2">
-{{--        TODO: add the company's logo--}}
+        @if(setting('pos.general.show_logo_in_receipt'))
+            <div class="text-center mb-1">
+                <img src="{{ $logo }}" width="50%">
+            </div>
+        @endif
+
         <div class="text-center text-small mb-1">
             <div>{{ setting('company.name') }}</div>
             @if (setting('company.tax_number'))
@@ -120,7 +124,9 @@
             <div>{{ $order->issued_at }}</div>
         </div>
 
-{{--        <div class="page-break"></div>--}}
+        @if(setting('pos.general.use_paper_cutter'))
+            <div class="page-break"></div>
+        @endif
     </div>
 </body>
 </html>

@@ -4,6 +4,7 @@ namespace Modules\Payroll\Http\Controllers\RunPayrolls;
 
 use App\Abstracts\Http\Controller;
 use App\Models\Setting\Currency;
+use Illuminate\Http\JsonResponse;
 use Modules\Payroll\Models\Employee\Employee;
 use Modules\Payroll\Models\PayCalendar\Employee as PayCalendarEmployee;
 use Modules\Payroll\Models\PayCalendar\PayCalendar;
@@ -30,12 +31,8 @@ class Variables extends Controller
         $this->middleware('permission:delete-payroll-run-payrolls')->only('destroy');
     }
 
-    public function create(PayCalendar $payCalendar, RunPayroll $runPayroll, Request $request)
+    public function create(PayCalendar $payCalendar, RunPayroll $runPayroll, Request $request): JsonResponse
     {
-        $benefit_row = $request->get('benefit_row');
-
-        $deduction_row = $request->get('deduction_row');
-
         $currency = Currency::where('code', '=', setting('default.currency'))->first();
 
         if ($currency) {
@@ -57,7 +54,7 @@ class Variables extends Controller
             $employees[$pay_calendar_employee->employee_id] = $pay_calendar_employee->employee->contact->name;
         }
 
-        $html = view('payroll::modals.run-payrolls.variables.create', compact('payCalendar', 'deduction_row', 'benefit_row',  'run_payroll', 'employees', 'currency', 'benefit_type', 'deduction_type'))->render();
+        $html = view('payroll::modals.run-payrolls.variables.create', compact('payCalendar',  'run_payroll', 'employees', 'currency', 'benefit_type', 'deduction_type'))->render();
 
         return response()->json([
             'success' => true,
@@ -67,20 +64,14 @@ class Variables extends Controller
         ]);
     }
 
-    public function store(PayCalendar $payCalendar, RunPayroll $runPayroll, Request $request)
+    public function store(PayCalendar $payCalendar, RunPayroll $runPayroll, Request $request): JsonResponse
     {
-        $response = [
+        return response()->json([
             'success' => true,
             'error' => false,
             'redirect' => route('payroll.pay-calendars.run-payrolls.pay-slips.index', [$payCalendar->id, $runPayroll->id]),
             'data' => [],
-        ];
-
-        $message = trans('messages.success.enabled', ['type' => trans_choice('payroll::general.run_payrolls', 1)]);
-
-        flash($message)->success();
-
-        return response()->json($response);
+        ]);
     }
 
     public function edit(RunPayroll $runPayroll)

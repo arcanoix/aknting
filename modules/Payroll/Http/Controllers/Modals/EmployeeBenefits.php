@@ -3,10 +3,10 @@
 namespace Modules\Payroll\Http\Controllers\Modals;
 
 use App\Abstracts\Http\Controller;
+use Modules\Payroll\Http\Requests\Employee\Benefit as Request;
 use Modules\Payroll\Models\Employee\Benefit;
 use Modules\Payroll\Models\Employee\Employee;
 use Modules\Payroll\Models\Setting\PayItem;
-use Modules\Payroll\Http\Requests\Employee\Benefit as Request;
 
 class EmployeeBenefits extends Controller
 {
@@ -30,16 +30,16 @@ class EmployeeBenefits extends Controller
 
         return response()->json([
             'success' => true,
-            'error' => false,
+            'error'   => false,
             'message' => null,
-            'html' => $html,
+            'html'    => $html,
         ]);
     }
 
     public function create(Employee $employee)
     {
         $recurring = [
-            'onlyonce' => trans('payroll::benefits.benefit_recurring.onlyonce'),
+            'onlyonce'   => trans('payroll::benefits.benefit_recurring.onlyonce'),
             'everycheck' => trans('payroll::benefits.benefit_recurring.everycheck'),
             'everymonth' => trans('payroll::benefits.benefit_recurring.everymonth')
         ];
@@ -50,38 +50,40 @@ class EmployeeBenefits extends Controller
 
         $currency = $employee->contact->currency;
 
-        $html = view('payroll::modals.employees.benefit.benefit', compact('employee', 'employee_id', 'type', 'recurring', 'currency'))->render();
+        $html = view('payroll::modals.employees.benefit.create', compact('employee', 'employee_id', 'type', 'recurring', 'currency'))->render();
 
         return response()->json([
             'success' => true,
-            'error' => false,
-            'data' => null,
+            'error'   => false,
+            'data'    => null,
             'message' => null,
-            'html' => $html,
+            'html'    => $html,
         ]);
     }
 
     public function store(Employee $employee, Request $request)
     {
         Benefit::create([
-            'company_id' => $request->company_id,
-            'employee_id' => $employee->id,
-            'type' => $request->type,
-            'amount' => $request->amount,
+            'company_id'    => $request->company_id,
+            'employee_id'   => $employee->id,
+            'type'          => $request->type,
+            'amount'        => $request->amount,
             'currency_code' => $employee->contact->currency_code,
-            'recurring' => $request->recurring,
-            'description' => $request->description
+            'recurring'     => $request->recurring,
+            'description'   => $request->description,
+            'from_date'     => $request->from_date,
+            'to_date'       => $request->to_date,
         ]);
 
         $response = [
-            'success' => true,
-            'error' => false,
+            'success'  => true,
+            'error'    => false,
             'redirect' => route('employees.employees.show', ['employee' => $employee->id, 'tab' => 'payroll']),
-            'data' => [],
-            'html' => null,
+            'data'     => [],
+            'html'     => null,
         ];
 
-        $message =  trans('messages.success.added', ['type' => trans_choice('payroll::general.benefits', 1)]);
+        $message = trans('messages.success.added', ['type' => trans_choice('payroll::general.benefits', 1)]);
 
         flash($message)->success();
 
@@ -91,7 +93,7 @@ class EmployeeBenefits extends Controller
     public function edit(Benefit $benefit)
     {
         $recurring = [
-            'onlyonce' => trans('payroll::benefits.benefit_recurring.onlyonce'),
+            'onlyonce'   => trans('payroll::benefits.benefit_recurring.onlyonce'),
             'everycheck' => trans('payroll::benefits.benefit_recurring.everycheck'),
             'everymonth' => trans('payroll::benefits.benefit_recurring.everymonth')
         ];
@@ -104,10 +106,10 @@ class EmployeeBenefits extends Controller
 
         return response()->json([
             'success' => true,
-            'error' => false,
-            'data' => null,
+            'error'   => false,
+            'data'    => null,
             'message' => null,
-            'html' => $html,
+            'html'    => $html,
         ]);
     }
 
@@ -116,11 +118,11 @@ class EmployeeBenefits extends Controller
         $benefit->update($request->input());
 
         $response = [
-            'success' => true,
-            'error' => false,
+            'success'  => true,
+            'error'    => false,
             'redirect' => route('employees.employees.show', ['employee' => $benefit->employee_id, 'tab' => 'payroll']),
-            'data' => [],
-            'html' => null,
+            'data'     => [],
+            'html'     => null,
         ];
 
         $message = trans('messages.success.updated', ['type' => trans_choice('payroll::general.benefits', 1)]);

@@ -4,7 +4,9 @@ namespace Modules\Payroll\Models\Employee;
 
 use App\Abstracts\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Modules\Payroll\Models\RunPayroll\RunPayroll;
 
 class Benefit extends Model
 {
@@ -17,7 +19,9 @@ class Benefit extends Model
         'amount',
         'currency_code',
         'recurring',
-        'description'
+        'description',
+        'from_date',
+        'to_date',
     ];
 
     protected $casts = [
@@ -32,5 +36,10 @@ class Benefit extends Model
     public function pay_item(): HasOne
     {
         return $this->hasOne('Modules\Payroll\Models\Setting\PayItem' , 'id', 'type');
+    }
+
+    public function run_payrolls(): BelongsToMany
+    {
+        return $this->belongsToMany(RunPayroll::class, 'payroll_run_payroll_employee_benefits', 'employee_benefit_id', 'run_payroll_id');
     }
 }

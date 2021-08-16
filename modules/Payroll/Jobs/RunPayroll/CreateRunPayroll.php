@@ -57,6 +57,5 @@ class CreateRunPayroll extends Job
         $this->request['payment_id'] = null;
         $this->request['status'] = 'not_approved';
         $this->request['amount'] = '0';
-        $this->request['name'] = (setting('payroll.name') != $this->request['name']) ? $this->request['name'] : $this->request['name'] . '-' . rand(1, 10000);
     }
 }
