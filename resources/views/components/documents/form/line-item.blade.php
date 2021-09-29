@@ -32,7 +32,9 @@
                                             <span class="aka-text aka-text--body" tabindex="0" v-html="row.name" v-if="row.item_id"></span>
                                             <div v-else>
                                                 @stack('name_input_start')
-                                                <input type="text"
+                                                <input 
+                                                    type="text"
+                                                    :ref="'items-' + index + '-name'"
                                                     class="form-control"
                                                     :name="'items.' + index + '.name'"
                                                     autocomplete="off"
@@ -40,8 +42,7 @@
                                                     data-item="name"
                                                     v-model="row.name"
                                                     @input="onBindingItemField(index, 'name')"
-                                                    @change="form.errors.clear('items.' + index + '.name')">
-
+                                                    @change="form.errors.clear('items.' + index + '.name')"/>
                                                 <div class="invalid-feedback d-block"
                                                     v-if="form.errors.has('items.' + index + '.name')"
                                                     v-html="form.errors.get('items.' + index + '.name')">
@@ -57,6 +58,7 @@
                                         @if (!$hideDescription)
                                             <textarea
                                                 class="form-control"
+                                                :ref="'items-' + index + '-description'"
                                                 placeholder="{{ trans('items.enter_item_description') }}"
                                                 style="height: 46px; overflow: hidden;"
                                                 :name="'items.' + index + '.description'"
@@ -76,9 +78,10 @@
                                 @if (!$hideQuantity)
                                     <div>
                                         @stack('quantity_input_start')
-                                        <input 
+                                        <input
                                             type="number"
                                             min="0"
+                                            :ref="'items-' + index + '-quantity'"
                                             class="form-control text-center p-0 input-number-disabled"
                                             :name="'items.' + index + '.quantity'"
                                             autocomplete="off"
@@ -87,7 +90,6 @@
                                             v-model="row.quantity"
                                             @input="onCalculateTotal"
                                             @change="form.errors.clear('items.' + index + '.quantity')">
-
                                         <div class="invalid-feedback d-block"
                                             v-if="form.errors.has('items.' + index + '.quantity')"
                                             v-html="form.errors.get('items.' + index + '.quantity')">
@@ -161,11 +163,15 @@
                                     </div>
                                             @stack('discount_input_start')
                                     <div class="form-group mb-0 w-100" style="display: inline-block; position: relative;">
-                                        <div class="input-group input-group-merge mb-0 select-tax">
+                                        <div class="input-group mb-0 select-tax">
                                             <div class="input-group-prepend">
-                                                <span class="input-group-text" id="input-discount">
-                                                    <i class="fa fa-percent"></i>
-                                                </span>
+                                                <button class="btn btn-sm" :class="[{'btn-outline-primary' : row.discount_type !== 'percentage'}, {'btn-primary' : row.discount_type === 'percentage'}]"
+                                                        @click="onChangeLineDiscountType(index, 'percentage')" type="button">
+                                                    <i class="fa fa-percent fa-sm"></i>
+                                                </button>
+                                                <button class="btn btn-sm" :class="[{'btn-outline-primary' : row.discount_type !== 'fixed'}, {'btn-primary' : row.discount_type === 'fixed'}]"
+                                                        @click="onChangeLineDiscountType(index, 'fixed')" type="button">{{ $currency->symbol }}
+                                                </button>
                                             </div>
                                             <input type="number"
                                                 max="100"
@@ -227,7 +233,7 @@
                                     ></akaunting-select>
                                     @stack('taxes_input_end')
                                 </div>
-                            
+
                                 <div class="line-item-content-right">
                                     <div class="line-item-content-right-price long-texts text-right">
                                         {{ Form::moneyGroup('tax', '', '', ['required' => 'required', 'disabled' => 'true' , 'row-input' => 'true', 'v-model' => 'row_tax.price', 'data-item' => 'total', 'currency' => $currency, 'dynamic-currency' => 'currency'], 0.00, 'text-right input-price disabled-money') }}
@@ -242,7 +248,7 @@
                             <div v-if="row.add_tax" class="line-item-area pb-3" :class="{'pt-2' : row.add_discount}">
                                 <div class="line-item-content">
                                     <div class="long-texts line-item-text" style="float: left; margin-top: 15px; margin-right:2px; position: absolute; left: -63px;">
-                                        {{ trans_choice('general.taxes', 1) }} 
+                                        {{ trans_choice('general.taxes', 1) }}
                                     </div>
 
                                     @stack('taxes_input_start')

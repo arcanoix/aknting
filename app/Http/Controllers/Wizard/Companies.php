@@ -67,6 +67,9 @@ class Companies extends Controller
                 case 'financial_start':
                     $real_key = 'localisation.' . $key;
                     break;
+                case 'country':
+                    $real_key = 'company.' . $key;
+                    break;
                 default:
                     $real_key = 'company.' . $key;
             }
@@ -94,6 +97,10 @@ class Companies extends Controller
             }
 
             setting()->set($real_key, $value);
+
+            if ($key == 'country') {
+                setting()->set('default.' . $key, $value);
+            }
         }
 
         // Save all settings

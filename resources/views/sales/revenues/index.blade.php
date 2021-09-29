@@ -55,7 +55,7 @@
                                 <td class="col-md-2 col-lg-3 col-xl-3 d-none d-md-block text-left">
                                     {{ $item->contact->name }}
 
-                                    @if($item->invoice)
+                                    @if ($item->invoice)
                                         @if ($item->invoice->status == 'paid')
                                             <el-tooltip content="{{ $item->invoice->document_number }} / {{ trans('documents.statuses.paid') }}"
                                             effect="success"
@@ -88,8 +88,10 @@
                                             <a class="dropdown-item" href="{{ route('revenues.show', $item->id) }}">{{ trans('general.show') }}</a>
 
                                             @if (!$item->reconciled)
+                                            @can('update-sales-revenues')
                                                 <a class="dropdown-item" href="{{ route('revenues.edit', $item->id) }}">{{ trans('general.edit') }}</a>
                                                 <div class="dropdown-divider"></div>
+                                            @endcan
                                             @endif
 
                                             @if (empty($item->document_id))
@@ -125,5 +127,5 @@
 @endsection
 
 @push('scripts_start')
-    <script src="{{ asset('public/js/sales/revenues.js?v=' . version('short')) }}"></script>
+    <script src="{{ asset('public/js/banking/transactions.js?v=' . version('short')) }}"></script>
 @endpush

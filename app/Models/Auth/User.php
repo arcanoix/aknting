@@ -5,6 +5,8 @@ namespace App\Models\Auth;
 use App\Traits\Tenants;
 use App\Notifications\Auth\Reset;
 use App\Traits\Media;
+use App\Traits\Owners;
+use App\Traits\Sources;
 use App\Traits\Users;
 use App\Utilities\Date;
 use Illuminate\Contracts\Translation\HasLocalePreference;
@@ -18,7 +20,7 @@ use Lorisleiva\LaravelSearchString\Concerns\SearchString;
 
 class User extends Authenticatable implements HasLocalePreference
 {
-    use HasFactory, LaratrustUserTrait, Notifiable, SearchString, SoftDeletes, Sortable, Media, Tenants, Users;
+    use HasFactory, LaratrustUserTrait, Media, Notifiable, Owners, SearchString, SoftDeletes, Sortable, Sources, Tenants, Users;
 
     protected $table = 'users';
 
@@ -27,7 +29,7 @@ class User extends Authenticatable implements HasLocalePreference
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password', 'locale', 'enabled', 'landing_page'];
+    protected $fillable = ['name', 'email', 'password', 'locale', 'enabled', 'landing_page', 'created_from', 'created_by'];
 
     /**
      * The attributes that should be cast.
@@ -182,7 +184,7 @@ class User extends Authenticatable implements HasLocalePreference
     }
 
     /**
-     * Scope to only include active currencies.
+     * Scope to only include active users.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
@@ -190,6 +192,28 @@ class User extends Authenticatable implements HasLocalePreference
     public function scopeEnabled($query)
     {
         return $query->where('enabled', 1);
+    }
+
+    /**
+     * Scope to only customers.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeIsCustomer($query)
+    {
+        return $query->wherePermissionIs('read-client-portal');
+    }
+
+    /**
+     * Scope to only users.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeIsNotCustomer($query)
+    {
+        return $query->wherePermissionIs('read-admin-panel');
     }
 
     /**
@@ -214,6 +238,50 @@ class User extends Authenticatable implements HasLocalePreference
     public function unsetCompanyIds()
     {
         $this->offsetUnset('company_ids');
+    }
+
+    /**
+     * Determine if user is a customer.
+     *
+     * @return bool
+     */
+    public function isCustomer()
+    {
+        return (bool) $this->can('read-client-portal');
+    }
+
+    /**
+     * Determine if user is not a customer.
+     *
+     * @return bool
+     */
+    public function isNotCustomer()
+    {
+        return (bool) $this->can('read-admin-panel');
+    }
+
+    public function scopeSource($query, $source)
+    {
+        return $query->where($this->qualifyColumn('created_from'), $source);
+    }
+
+    public function scopeIsOwner($query)
+    {
+        return $query->where($this->qualifyColumn('created_by'), user_id());
+    }
+
+    public function scopeIsNotOwner($query)
+    {
+        return $query->where($this->qualifyColumn('created_by'), '<>', user_id());
+    }
+
+    public function ownerKey($owner)
+    {
+        if ($this->isNotOwnable()) {
+            return 0;
+        }
+
+        return $this->created_by;
     }
 
     /**

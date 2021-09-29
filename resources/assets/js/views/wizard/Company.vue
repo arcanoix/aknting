@@ -54,6 +54,7 @@
                                 v-model="company.tax_number"
                             />
                         </div>
+
                         <div class="col-6">
                             <akaunting-date
                             :title="translations.company.financial_start"
@@ -83,10 +84,30 @@
                             </base-input>
                         </div>
 
-                        <div class="col-3 mb-0">
+                        <div class="col-6">
+                            <base-input :label="translations.company.country">
+                                <el-select name="country" v-model="company.country" filterable>
+                                    <template slot="prefix">
+                                        <span class="el-input__suffix-inner el-select-icon">
+                                            <i :class="'select-icon-position el-input__icon fas fa-globe-americas'"></i>
+                                        </span>
+                                    </template>
+                                    <el-option
+                                        v-for="(country, index) in sortedCountries"
+                                        :key="index"
+                                        :label="country.value"
+                                        :value="country.key"
+                                    >
+                                    </el-option>
+                                </el-select>
+                            </base-input>
+                        </div>
+
+                        <div class="col-6 mb-0">
                             <label class="form-control-label">{{  translations.company.logo }}</label>
                             <akaunting-dropzone-file-upload
                                 ref="dropzoneWizard"
+                                class="form-file"
                                 preview-classes="single"
                                 :attachments="logo"
                                 :v-model="logo"
@@ -116,7 +137,7 @@
 </template>
 
 <script>
-import { Step, Steps } from "element-ui";
+import { Step, Steps, Select, Option } from "element-ui";
 import AkauntingDropzoneFileUpload from "./../../components/AkauntingDropzoneFileUpload";
 import AkauntingDate from "./../../components/AkauntingDate";
 import WizardAction from "./../../mixins/wizardAction";
@@ -129,12 +150,18 @@ export default {
     components: {
         [Step.name]: Step,
         [Steps.name]: Steps,
+        [Select.name]: Select,
+        [Option.name]: Option,
         AkauntingDropzoneFileUpload,
         AkauntingDate,
     },
 
     props: {
         company: {
+            type: [Object, Array],
+        },
+
+        countries: {
             type: [Object, Array],
         },
 
@@ -159,7 +186,7 @@ export default {
             type: Object,
             default: function () {
                 return {
-                   
+
                 };
             },
             description: "FlatPckr date configuration"
@@ -171,20 +198,31 @@ export default {
             active: 0,
             logo: [],
             real_date: "",
-            lang_data: ''
+            lang_data: '',
+            sorted_countries: [],
         };
     },
 
     created() {
-        if(document.documentElement.lang) {
+        if (document.documentElement.lang) {
             let lang_split = document.documentElement.lang.split("-");
 
             if (lang_split[0] !== 'en') {
-                
-            const lang = require(`flatpickr/dist/l10n/${lang_split[0]}.js`).default[lang_split[0]];
-            this.dateConfig.locale = lang;
+                const lang = require(`flatpickr/dist/l10n/${lang_split[0]}.js`).default[lang_split[0]];
+
+                this.dateConfig.locale = lang;
             }
         }
+
+        this.setSortedCountries();
+    },
+
+    computed: {
+        sortedCountries() {
+            this.sorted_countries.sort(this.sortBy('value'));
+
+            return this.sorted_countries;
+        },
     },
 
     mounted() {
@@ -194,6 +232,57 @@ export default {
     },
 
     methods: {
+        sortBy(option) {
+            return (firstEl, secondEl) => {
+                let first_element = firstEl[option].toUpperCase(); // ignore upper and lowercase
+                let second_element = secondEl[option].toUpperCase(); // ignore upper and lowercase
+
+                if (first_element < second_element) {
+                    return -1;
+                }
+
+                if (first_element > second_element) {
+                    return 1;
+                }
+
+                // names must be equal
+                return 0;
+            }
+        },
+
+        setSortedCountries() {
+            // Reset sorted_countries
+            this.sorted_countries = [];
+
+            let created_options = this.countries;
+
+            // Option set sort_option data
+            if (!Array.isArray(created_options)) {
+                for (const [key, value] of Object.entries(created_options)) {
+                    this.sorted_countries.push({
+                        key: key.toString(),
+                        value: value
+                    });
+                }
+            } else {
+                created_options.forEach(function (option, index) {
+                    if (typeof(option) == 'string') {
+                        this.sorted_countries.push({
+                            index: index,
+                            key: index.toString(),
+                            value: option
+                        });
+                    } else {
+                        this.sorted_countries.push({
+                            index: index,
+                            key: option.id.toString(),
+                            value: (option.title) ? option.title : (option.display_name) ? option.display_name : option.name
+                        });
+                    }
+                }, this);
+            }
+        },
+
         onDataWatch(company) {
             if (Object.keys(company).length) {
                 if (company.logo) {
@@ -247,7 +336,7 @@ export default {
             const formData = new FormData(this.$refs["form"]);
 
             let data_name = {};
-      
+
             for (let [key, val] of formData.entries()) {
                 Object.assign(data_name, {
                     [key]: val,
@@ -283,6 +372,7 @@ export default {
             })
             .then((response) => {
                 this.onSuccessMessage(response);
+
                 this.$router.push("/wizard/currencies");
             }, this)
             .catch((error) => {
@@ -291,6 +381,7 @@ export default {
 
         next() {
             if (this.active++ > 2);
+
             this.$router.push("/wizard/currencies");
         },
     },

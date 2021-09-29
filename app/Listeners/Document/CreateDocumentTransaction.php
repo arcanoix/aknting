@@ -36,16 +36,32 @@ class CreateDocumentTransaction
             if (empty($user) || $signed) {
                 flash($message)->error()->important();
 
-                redirect()->route("signed.$type.show", $document->id)->send();
+                return $this->getResponse('signed.' . $type . '.show', $document, $message);
             }
 
-            if ($user->can('read-client-portal')) {
+            if ($user->isCustomer()) {
                 flash($message)->error()->important();
 
-                redirect()->route("portal.$type.show", $document->id)->send();
+                return $this->getResponse('portal.' . $type . '.show', $document, $message);
             }
 
             throw new \Exception($message);
         }
+    }
+
+    protected function getResponse($path, $document, $message)
+    {
+        $url = route($path, $document->id);
+
+        if (request()->expectsJson()) {
+            return response()->json([
+                'success' => false,
+                'errors' => true,
+                'message' => $message,
+                'redirect' => $url,
+            ]);
+        }
+
+        return redirect($url);
     }
 }

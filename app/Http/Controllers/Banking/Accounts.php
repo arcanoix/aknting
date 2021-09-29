@@ -34,8 +34,11 @@ class Accounts extends Controller
      */
     public function show(Account $account)
     {
+<<<<<<< HEAD
         $limit = (int) request('limit', setting('default.list_limit', '25'));
 
+=======
+>>>>>>> b42c81c05bebf9b3d4766aca35dbad4cb1cb274a
         // Handle transactions
         $transactions = Transaction::with('account', 'category')->where('account_id', $account->id)->collect('paid_at');
 
@@ -43,7 +46,11 @@ class Accounts extends Controller
             if ($transfer->expense_account->id == $account->id || $transfer->income_account->id == $account->id) {
                 return true;
             }
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> b42c81c05bebf9b3d4766aca35dbad4cb1cb274a
             return false;
         })->sortByDesc(function ($transfer) {
             return $transfer->expense_transaction->paid_at;

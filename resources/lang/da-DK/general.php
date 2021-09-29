@@ -2,14 +2,14 @@
 
 return [
 
-    'dashboards'            => 'Skrivebord|Skriveborde',
+    'dashboards'            => 'Overblik|Overblik',
     'items'                 => 'Vare|Varer',
     'incomes'               => 'Indtægt|Indtægter',
     'invoices'              => 'Faktura|Fakturaer',
     'revenues'              => 'Indtægt|Indtægter',
-    'customers'             => 'Medlem|Medlemmer',
+    'customers'             => 'Kunde|Kunder',
     'expenses'              => 'Udgift|Udgifter',
-    'bills'                 => 'Regning|Regninger',
+    'bills'                 => 'Køb|Køb',
     'payments'              => 'Betaling|Betalinger',
     'vendors'               => 'Kreditor|Kreditorer',
     'accounts'              => 'Konto|Konti',
@@ -25,7 +25,7 @@ return [
     'permissions'           => 'Tilladelse|Tilladelser',
     'modules'               => 'App|Apps',
     'companies'             => 'Enhed|Enheder',
-    'profits'               => 'Overskud|Overskud',
+    'profits'               => 'Resultat|Resultater',
     'taxes'                 => 'Moms|Moms',
     'logos'                 => 'Logo|Logoer',
     'pictures'              => 'Billede|Billeder',
@@ -50,8 +50,10 @@ return [
     'widgets'               => 'Widget|Widgets',
     'templates'             => 'Skabelon|Skabeloner',
     'sales'                 => 'Salg|Salg',
-    'purchases'             => 'Bestilling|Bestillinger',
+    'purchases'             => 'Indkøb|Indkøb',
     'notifications'         => 'Notifikation|Notifikationer',
+    'countries'             => 'Land|Lande',
+    'cities'                => 'By|Byer',
 
     'welcome'               => 'Velkommen',
     'banking'               => 'Bank',
@@ -164,6 +166,8 @@ return [
     'amount_due'            => 'Forfaldent beløb',
     'financial_year'        => 'Regnskabsår',
     'created'               => 'Oprettet',
+    'state'                 => 'Region/Stat',
+    'zip_code'              => 'Postnummer',
 
     'card' => [
         'cards'                 => 'Kort|Kort

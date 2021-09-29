@@ -82,21 +82,33 @@
                 @stack('account_number_start')
                 <li class="list-group-item d-flex justify-content-between align-items-center border-0 font-weight-600">
                     {{ trans_choice('general.accounts', 1) }} {{ trans_choice('accounts.number', 2) }}
+<<<<<<< HEAD
                     <small class="long-texts">{{ $account -> number}}</small>
+=======
+                    <small>{{ $account->number}}</small>
+>>>>>>> b42c81c05bebf9b3d4766aca35dbad4cb1cb274a
                 </li>
                 @stack('account_number_end')
 
                 @stack('account_currency_start')
                 <li class="list-group-item d-flex justify-content-between align-items-center border-0 border-top-1 font-weight-600">
                     {{ trans_choice('general.currencies', 2) }}
+<<<<<<< HEAD
                     <small class="long-texts"> {{ $account -> currency -> name}} </small>
+=======
+                    <small>{{ $account->currency->name}}</small>
+>>>>>>> b42c81c05bebf9b3d4766aca35dbad4cb1cb274a
                 </li>
                 @stack('account_currency_end')
 
                 @stack('account_starting_balance_start')
                 <li class="list-group-item d-flex justify-content-between align-items-center border-0 border-top-1 font-weight-600">
                     {{ trans_choice('accounts.opening_balance', 2) }}
+<<<<<<< HEAD
                     <small class="long-texts"> @money($account -> opening_balance, $account -> currency -> currency_code, true) </small>
+=======
+                    <small>@money($account->opening_balance, $account->currency_code, true)</small>
+>>>>>>> b42c81c05bebf9b3d4766aca35dbad4cb1cb274a
                 </li>
                 @stack('account_starting_balance_end')
             </ul>
@@ -105,21 +117,33 @@
                 @stack('bank_name_start')
                 <li class="list-group-item border-0">
                     <div class="font-weight-600">{{ trans('accounts.bank_name') }}</div>
+<<<<<<< HEAD
                     <div><small class="long-texts" title="{{ $account->bank_name }}">{{ $account->bank_name }}</small></div>
+=======
+                    <div><small>{{ $account->bank_name }}</small></div>
+>>>>>>> b42c81c05bebf9b3d4766aca35dbad4cb1cb274a
                 </li>
                 @stack('bank_name_end')
 
                 @stack('account_phone_start')
                 <li class="list-group-item border-0 border-top-1">
                     <div class="font-weight-600">{{ trans('accounts.bank_phone') }}</div>
+<<<<<<< HEAD
                     <div><small class="long-texts" title="{{ $account->bank_phone }}">{{ $account->bank_phone }}</small></div>
+=======
+                    <div><small>{{ $account->bank_phone }}</small></div>
+>>>>>>> b42c81c05bebf9b3d4766aca35dbad4cb1cb274a
                 </li>
                 @stack('account_phone_end')
 
                 @stack('account_address_start')
                 <li class="list-group-item border-0 border-top-1">
                     <div class="font-weight-600">{{ trans('accounts.bank_address') }}</div>
+<<<<<<< HEAD
                     <div><small class="long-texts" title="{{ $account->bank_address }}">{{ $account->bank_address }}</small></div>
+=======
+                    <div><small>{{ $account->bank_address }}</small></div>
+>>>>>>> b42c81c05bebf9b3d4766aca35dbad4cb1cb274a
                 </li>
                 @stack('account_address_end')
             </ul>
@@ -216,7 +240,11 @@
                                         <tbody>
                                             @foreach($transactions as $item)
                                                 <tr class="row align-items-center border-top-1 tr-py">
+<<<<<<< HEAD
                                                     <td class="col-sm-3"><a href="{{ route($item->route_name, $item->route_id) }}">@date($item->issued_at)</a></td>
+=======
+                                                    <td class="col-sm-3"><a href="{{ route($item->route_name, $item->route_id) }}">@date($item->paid_at)</a></td>
+>>>>>>> b42c81c05bebf9b3d4766aca35dbad4cb1cb274a
                                                     <td class="col-sm-3">@money($item->amount, $item->currency_code, true)</td>
                                                     <td class="col-sm-3">{{ $item->type_title }}</td>
                                                     <td class="col-sm-3">{{ $item->category->name }}</td>
@@ -257,7 +285,11 @@
                                                 </tr>
                                             @endforeach
                                         </tbody>
+<<<<<<< HEAD
                                     </table>                                 
+=======
+                                    </table>
+>>>>>>> b42c81c05bebf9b3d4766aca35dbad4cb1cb274a
                                 </div>
 
                                 <div class="card-footer py-4 table-action">

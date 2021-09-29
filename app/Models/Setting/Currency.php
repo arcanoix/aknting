@@ -30,6 +30,7 @@ class Currency extends Model
         'symbol_first',
         'decimal_mark',
         'thousands_separator',
+        'created_from',
         'created_by',
     ];
 
@@ -179,7 +180,7 @@ class Currency extends Model
      */
     public function scopeCode($query, $code)
     {
-        return $query->where($this->table . '.code', $code);
+        return $query->where($this->qualifyColumn('code'), $code);
     }
 
     /**

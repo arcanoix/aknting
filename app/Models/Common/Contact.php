@@ -20,6 +20,13 @@ class Contact extends Model
     protected $table = 'contacts';
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['location'];
+
+    /**
      * Attributes that should be mass-assignable.
      *
      * @var array
@@ -33,10 +40,15 @@ class Contact extends Model
         'tax_number',
         'phone',
         'address',
+        'city',
+        'zip_code',
+        'state',
+        'country',
         'website',
         'currency_code',
         'reference',
         'enabled',
+        'created_from',
         'created_by',
     ];
 
@@ -121,7 +133,7 @@ class Contact extends Model
             return $query;
         }
 
-        return $query->whereIn($this->table . '.type', (array) $types);
+        return $query->whereIn($this->qualifyColumn('type'), (array) $types);
     }
 
     /**
@@ -132,7 +144,7 @@ class Contact extends Model
      */
     public function scopeVendor($query)
     {
-        return $query->whereIn($this->table . '.type', (array) $this->getVendorTypes());
+        return $query->whereIn($this->qualifyColumn('type'), (array) $this->getVendorTypes());
     }
 
     /**
@@ -143,7 +155,7 @@ class Contact extends Model
      */
     public function scopeCustomer($query)
     {
-        return $query->whereIn($this->table . '.type', (array) $this->getCustomerTypes());
+        return $query->whereIn($this->qualifyColumn('type'), (array) $this->getCustomerTypes());
     }
 
     public function scopeEmail($query, $email)
@@ -186,6 +198,30 @@ class Contact extends Model
         });
 
         return $amount;
+    }
+
+
+    public function getLocationAttribute()
+    {
+        $location = [];
+
+        if ($this->city) {
+            $location[] = $this->city;
+        }
+
+        if ($this->zip_code) {
+            $location[] = $this->zip_code;
+        }
+
+        if ($this->state) {
+            $location[] = $this->state;
+        }
+
+        if ($this->country) {
+            $location[] = trans('countries.' . $this->country);
+        }
+
+        return implode(', ', $location);
     }
 
     /**

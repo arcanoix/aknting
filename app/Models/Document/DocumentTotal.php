@@ -16,7 +16,7 @@ class DocumentTotal extends Model
 
     protected $appends = ['title'];
 
-    protected $fillable = ['company_id', 'type', 'document_id', 'code', 'name', 'amount', 'sort_order'];
+    protected $fillable = ['company_id', 'type', 'document_id', 'code', 'name', 'amount', 'sort_order', 'created_from', 'created_by'];
 
     /**
      * The attributes that should be cast.
@@ -34,17 +34,17 @@ class DocumentTotal extends Model
 
     public function scopeType(Builder $query, string $type)
     {
-        return $query->where($this->table . '.type', '=', $type);
+        return $query->where($this->qualifyColumn('type'), '=', $type);
     }
 
     public function scopeInvoice(Builder $query)
     {
-        return $query->where($this->table . '.type', '=', Document::INVOICE_TYPE);
+        return $query->where($this->qualifyColumn('type'), '=', Document::INVOICE_TYPE);
     }
 
     public function scopeBill(Builder $query)
     {
-        return $query->where($this->table . '.type', '=', Document::BILL_TYPE);
+        return $query->where($this->qualifyColumn('type'), '=', Document::BILL_TYPE);
     }
 
     public function scopeCode($query, $code)

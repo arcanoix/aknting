@@ -26,7 +26,7 @@ class Document extends Model
 
     protected $table = 'documents';
 
-    protected $appends = ['attachment', 'amount_without_tax', 'discount', 'paid', 'received_at', 'status_label', 'sent_at'];
+    protected $appends = ['attachment', 'amount_without_tax', 'discount', 'paid', 'received_at', 'status_label', 'sent_at', 'reconciled'];
 
     protected $dates = ['deleted_at', 'issued_at', 'due_at'];
 
@@ -51,6 +51,7 @@ class Document extends Model
         'notes',
         'footer',
         'parent_id',
+        'created_from',
         'created_by',
     ];
 
@@ -171,17 +172,17 @@ class Document extends Model
 
     public function scopeType(Builder $query, string $type)
     {
-        return $query->where($this->table . '.type', '=', $type);
+        return $query->where($this->qualifyColumn('type'), '=', $type);
     }
 
     public function scopeInvoice(Builder $query)
     {
-        return $query->where($this->table . '.type', '=', self::INVOICE_TYPE);
+        return $query->where($this->qualifyColumn('type'), '=', self::INVOICE_TYPE);
     }
 
     public function scopeBill(Builder $query)
     {
-        return $query->where($this->table . '.type', '=', self::BILL_TYPE);
+        return $query->where($this->qualifyColumn('type'), '=', self::BILL_TYPE);
     }
 
     /**
@@ -267,7 +268,6 @@ class Document extends Model
         }
 
         $paid = 0;
-        $reconciled = $reconciled_amount = 0;
 
         $code = $this->currency_code;
         $rate = $this->currency_rate;
@@ -282,6 +282,36 @@ class Document extends Model
                 }
 
                 $paid += $amount;
+            }
+        }
+
+        return round($paid, $precision);
+    }
+
+    /**
+     * Get the reconcilation status.
+     *
+     * @return integer
+     */
+    public function getReconciledAttribute()
+    {
+        if (empty($this->amount)) {
+            return 0;
+        }
+
+        $reconciled = $reconciled_amount = 0;
+
+        $code = $this->currency_code;
+        $rate = $this->currency_rate;
+        $precision = config('money.' . $code . '.precision');
+
+        if ($this->transactions->count()) {
+            foreach ($this->transactions as $transaction) {
+                $amount = $transaction->amount;
+
+                if ($code != $transaction->currency_code) {
+                    $amount = $this->convertBetween($amount, $transaction->currency_code, $transaction->currency_rate, $code, $rate);
+                }
 
                 if ($transaction->reconciled) {
                     $reconciled_amount = +$amount;
@@ -293,9 +323,7 @@ class Document extends Model
             $reconciled = 1;
         }
 
-        $this->setAttribute('reconciled', $reconciled);
-
-        return round($paid, $precision);
+        return $reconciled;
     }
 
     /**

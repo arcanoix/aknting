@@ -13,7 +13,7 @@ class DocumentHistory extends Model
 
     protected $table = 'document_histories';
 
-    protected $fillable = ['company_id', 'type', 'document_id', 'status', 'notify', 'description'];
+    protected $fillable = ['company_id', 'type', 'document_id', 'status', 'notify', 'description', 'created_from', 'created_by'];
 
     public function document()
     {
@@ -22,16 +22,16 @@ class DocumentHistory extends Model
 
     public function scopeType(Builder $query, string $type)
     {
-        return $query->where($this->table . '.type', '=', $type);
+        return $query->where($this->qualifyColumn('type'), '=', $type);
     }
 
     public function scopeInvoice(Builder $query)
     {
-        return $query->where($this->table . '.type', '=', Document::INVOICE_TYPE);
+        return $query->where($this->qualifyColumn('type'), '=', Document::INVOICE_TYPE);
     }
 
     public function scopeBill(Builder $query)
     {
-        return $query->where($this->table . '.type', '=', Document::BILL_TYPE);
+        return $query->where($this->qualifyColumn('type'), '=', Document::BILL_TYPE);
     }
 }

@@ -3,39 +3,25 @@
 namespace App\Jobs\Common;
 
 use App\Abstracts\Job;
+use App\Exceptions\Common\LastDashboard;
+use App\Exceptions\Common\NotUserDashboard;
+use App\Interfaces\Job\ShouldDelete;
 use App\Traits\Users;
 
-class DeleteDashboard extends Job
+class DeleteDashboard extends Job implements ShouldDelete
 {
     use Users;
 
-    protected $dashboard;
-
-    /**
-     * Create a new job instance.
-     *
-     * @param  $dashboard
-     */
-    public function __construct($dashboard)
-    {
-        $this->dashboard = $dashboard;
-    }
-
-    /**
-     * Execute the job.
-     *
-     * @return boolean
-     */
-    public function handle()
+    public function handle(): bool
     {
         $this->authorize();
 
         \DB::transaction(function () {
-            $this->deleteRelationships($this->dashboard, ['widgets']);
+            $this->deleteRelationships($this->model, ['widgets']);
 
-            $this->dashboard->users()->detach();
+            $this->model->users()->detach();
 
-            $this->dashboard->delete();
+            $this->model->delete();
         });
 
         return true;
@@ -43,27 +29,25 @@ class DeleteDashboard extends Job
 
     /**
      * Determine if this action is applicable.
-     *
-     * @return void
      */
-    public function authorize()
+    public function authorize(): void
     {
         // Can't delete last dashboard for any shared user
-        foreach ($this->dashboard->users as $user) {
+        foreach ($this->model->users as $user) {
             if ($user->dashboards()->enabled()->count() > 1) {
                 continue;
             }
 
             $message = trans('dashboards.error.delete_last');
 
-            throw new \Exception($message);
+            throw new LastDashboard($message);
         }
 
         // Check if user can access dashboard
-        if ($this->isNotUserDashboard($this->dashboard->id)) {
+        if ($this->isNotUserDashboard($this->model->id)) {
             $message = trans('dashboards.error.not_user_dashboard');
 
-            throw new \Exception($message);
+            throw new NotUserDashboard($message);
         }
     }
 }

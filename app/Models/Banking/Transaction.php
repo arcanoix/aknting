@@ -43,6 +43,7 @@ class Transaction extends Model
         'payment_method',
         'reference',
         'parent_id',
+        'created_from',
         'created_by',
     ];
 
@@ -138,7 +139,7 @@ class Transaction extends Model
             return $query;
         }
 
-        return $query->whereIn($this->table . '.type', (array) $types);
+        return $query->whereIn($this->qualifyColumn('type'), (array) $types);
     }
 
     /**
@@ -149,7 +150,7 @@ class Transaction extends Model
      */
     public function scopeIncome($query)
     {
-        return $query->whereIn($this->table . '.type', (array) $this->getIncomeTypes());
+        return $query->whereIn($this->qualifyColumn('type'), (array) $this->getIncomeTypes());
     }
 
     /**
@@ -160,7 +161,7 @@ class Transaction extends Model
      */
     public function scopeExpense($query)
     {
-        return $query->whereIn($this->table . '.type', (array) $this->getExpenseTypes());
+        return $query->whereIn($this->qualifyColumn('type'), (array) $this->getExpenseTypes());
     }
 
     /**
@@ -347,6 +348,16 @@ class Transaction extends Model
                 MediaModel::where('id', $file->id)->delete();
             }
         }
+    }
+
+    /**
+     * Check if the record is attached to a transfer.
+     *
+     * @return bool
+     */
+    public function getHasTransferRelationAttribute()
+    {
+        return (bool) (optional($this->category)->id == optional($this->category)->transfer());
     }
 
     /**

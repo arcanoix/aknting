@@ -13,7 +13,7 @@ class DocumentItemTax extends Model
 
     protected $table = 'document_item_taxes';
 
-    protected $fillable = ['company_id', 'type', 'document_id', 'document_item_id', 'tax_id', 'name', 'amount'];
+    protected $fillable = ['company_id', 'type', 'document_id', 'document_item_id', 'tax_id', 'name', 'amount', 'created_from', 'created_by'];
 
     /**
      * The attributes that should be cast.
@@ -41,16 +41,16 @@ class DocumentItemTax extends Model
 
     public function scopeType(Builder $query, string $type)
     {
-        return $query->where($this->table . '.type', '=', $type);
+        return $query->where($this->qualifyColumn('type'), '=', $type);
     }
 
     public function scopeInvoice(Builder $query)
     {
-        return $query->where($this->table . '.type', '=', Document::INVOICE_TYPE);
+        return $query->where($this->qualifyColumn('type'), '=', Document::INVOICE_TYPE);
     }
 
     public function scopeBill(Builder $query)
     {
-        return $query->where($this->table . '.type', '=', Document::BILL_TYPE);
+        return $query->where($this->qualifyColumn('type'), '=', Document::BILL_TYPE);
     }
 }
